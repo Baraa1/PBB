@@ -1,0 +1,38 @@
+<form method="post" class="search-form" role="search">
+    {% csrf_token %}
+    <input type="text" class="stop-enter search-bar form-control form-control-sm" name="search-bar" placeholder="Search recent records" aria-label="Search"
+    hx-post="{% url 'search_records' %}"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-trigger="input delay:2s" hx-target="#docking-records-table" hx-swap="innerHTML">
+    <div class="search-checks">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">      
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="operator1" value="operator1" checked="">
+            <label class="btn btn-primary" for="operator1">by<b> Operator</b></label>
+
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="flight_no1" value="flight_no1">
+            <label class="btn btn-primary" for="flight_no1">by <b>Flight (A)</b></label>
+
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="flight_no2" value="flight_no2">
+            <label class="btn btn-primary" for="flight_no2">by <b>Flight (D)</b></label>
+
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="ac_reg" value="ac_reg">
+            <label class="btn btn-primary" for="ac_reg">by <b>AC Reg</b></label>
+
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="ac_type" value="ac_type">
+            <label class="btn btn-primary" for="ac_type">by <b>AC Type</b></label>
+        </div>
+    </div>
+</form>
+<script>
+    function search_htmx() {
+        const checkboxes = document.querySelectorAll('.form-check')
+        checkboxes.forEach(box => {
+           box.setAttribute("hx-post","{% url 'search_records' %}");
+           box.setAttribute("hx-headers", '{"X-CSRFToken": "{{ csrf_token }}"}');
+           box.setAttribute("hx-trigger", "click");
+           box.setAttribute("hx-target", "#docking-records-table");
+           box.setAttribute("hx-swap", "innerHTML");
+        })
+     }
+    search_htmx();
+</script>

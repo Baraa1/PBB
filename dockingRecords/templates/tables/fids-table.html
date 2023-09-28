@@ -1,0 +1,67 @@
+{% load new_filters %}
+
+<div class="table-container">
+    <table class="table table-striped table-bordered table-hover">
+        <caption>Total: {{ total_records }}</caption>
+        <thead class="table-dark">
+            <tr>
+                <th class="align-middle" scope="col">Dock</th>
+                <th class="align-middle" scope="col">Airlines</th>
+                <th class="align-middle" scope="col">Gate</th>
+                <th class="align-middle phone" scope="col">Flight_IATA</th>
+                <th class="align-middle " scope="col">Status</th>
+                <th class="align-middle phone" scope="col">From</th>
+                <th class="align-middle" scope="col">Dep_Time</th>
+                <th class="align-middle" scope="col">Dep_Est_Time</th>
+                <th class="align-middle phone" scope="col">To</th>
+                <th class="align-middle " scope="col">Arr_Time</th>
+                <th class="align-middle " scope="col">Arr_Est_Time</th>
+
+                <th class="align-middle " scope="col">Arr_Delayed</th>
+                <th class="align-middle " scope="col">Dep_Delayed</th>
+            </tr>
+        </thead>
+        <tbody  id="fids-table">
+
+            {% for element in schedule %}
+                <tr>
+                    <td class="align-middle phone">
+                        <a href="{% url 'create_docking_fids' element|get_value:'flight_iata' %}" class="btn btn-primary btn-sm">Dock</a>
+                    </td>
+                    <td class="align-middle phone">{{ element|get_value:'airline_iata' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'arr_gate' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'flight_iata' }}</td>
+                    {% if element|get_value:'status' == 'active' %}
+                        <td class="align-middle phone" style="color: blue;">{{ element|get_value:'status' }}</td>
+                    {% elif element|get_value:'status' == 'landed' %}
+                        <td class="align-middle phone" style="color: red;">{{ element|get_value:'status' }}</td>
+                    {% elif element|get_value:'status' == 'scheduled' %}
+                        <td class="align-middle phone" style="color: green;">{{ element|get_value:'status' }}</td>
+                    {% endif %}
+                    <td class="align-middle phone">{{ element|get_value:'dep_iata' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'dep_time' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'dep_estimated' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'arr_iata' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'arr_time' }}</td>
+                    <td class="align-middle phone">{{ element|get_value:'arr_estimated' }}</td>
+                    <td class="align-middle phone">
+                        {% if element|get_value:'dep_delayed' == None %}
+                            0 
+                        {% else%}
+                            <u style="color:red;">{{ element|get_value:'dep_delayed' }}</u> 
+                        {% endif %}
+                        Minutes
+                    </td>
+                    <td class="align-middle phone">
+                        {% if element|get_value:'arr_delayed' == None %}
+                            0 
+                        {% else%}
+                            <u style="color:red;">{{ element|get_value:'arr_delayed' }}</u> 
+                        {% endif %}
+                        Minutes
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

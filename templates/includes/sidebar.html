@@ -1,0 +1,44 @@
+
+{% if perms.dockingRecords.view_dockingrecord %}
+  <a href="{% url 'dockings' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">
+    <span class="material-symbols-outlined p-1 fs-3">news</span>
+    <div href="{% url 'dockings' %}" class="p-0">Records</div>
+  </a>
+{% endif %}
+
+{% if perms.accounts.view_customuser %}
+  <a href="{% url 'accounts' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">
+    <span class="material-symbols-outlined p-1 fs-3">supervised_user_circle</span>
+    <div class="p-0">Accounts</div>
+  </a>
+{% endif %}
+{% comment %}
+{% if perms.accounts.view_customuser %}
+  <a href="{% url 'departments' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">
+    <span class="material-symbols-outlined p-1 fs-2">schema</span>
+    <div class="p-0">Departments</div>
+  </a>
+{% endif %}
+
+{% if perms.LMS.view_leaverequest %}
+  <a href="{% url 'leave_requests' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">
+    <span class="material-symbols-outlined p-1 fs-3">directions_run</span>
+    <div class="p-0">Leaves</div>
+  </a>
+{% endif %}
+{% endcomment %}
+{% if perms.locations.view_terminal %}
+<!-- the btn should be inline for the arrow to work -->
+<!-- data-bs-target targets the ul element using the id -->
+  <a href="{% url 'terminals' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded" role="button">
+    <span class="material-symbols-outlined p-1 fs-3">holiday_village</span>
+    <div class="p-0">Assets</div>
+  </a>
+
+{% endif %}
+{% if perms.locations.change_terminal and perms.accounts.change_customuse and perms.dockingRecords.change_dockingrecord %}
+  <a href="{% url 'upload_location_file' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded" role="button">
+    <span class="material-symbols-outlined p-1 fs-3">publish</span>
+    <div class="p-0">Import</div>
+  </a>
+{% endif %}

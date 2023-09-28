@@ -1,0 +1,30 @@
+<div class="toolbar">
+    {% if user.is_authenticated %}
+        <form method="post" class="search-form" role="search">
+            {% csrf_token %}
+            <input type="text" class="form-control" name="search-bar" placeholder="Search Records" aria-label="Search"
+            hx-post="{% url 'dockings' %}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-trigger="input" hx-target="#docking-records-table" hx-swap="innerHTML">
+        </form>
+        <div class="toolbar-btns cpu">
+            {% block custom_btn %}
+                <a href="{% url 'create_docking' %}" class="btn btn-danger">Add Record</a>
+            {% endblock %}
+            <div class="dropdown text-end">
+                <div class="dropdown">
+                    <button class="btn btn-danger dropdown-toggle show" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                    {{ user.username }}
+                    </button>
+                    <ul class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                        <li><h6 class="dropdown-header">{{ user.first_name }} {{ user.last_name }}</h6></li>
+                        <li><a class="dropdown-item" href="#">View Profile</a></li>
+                        <li><a href="{% url 'password_change' %}" class="dropdown-item" >Change Password</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="{% url 'logout' %}" class="dropdown-item" >Log Out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>

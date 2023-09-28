@@ -1,0 +1,15 @@
+<form class="month-filter" method="post" enctype="multipart/form-data" action="" id="month-pie-chart-form">
+  {% csrf_token %}
+  <table class="table table-striped table-bordered table-sm">
+    <tbody>
+      <tr class="form-floating mb-3">
+        <td class="align-middle">
+          <label for="month" class="month form-label">Month</label>
+          <input type="month" name="month" class="month-input stop-enter form-control form-control-sm"
+          hx-post="{% url 'filter_month' %}"
+          hx-trigger="input" hx-target="#month-pie-chart-js" hx-swap="afterend">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

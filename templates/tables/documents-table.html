@@ -1,0 +1,59 @@
+<div class="table-container">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Document ID</th>
+                <th scope="col">Document Name</th>
+                <th scope="col">Import</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document in documents %}
+                {% if locations_view and document.locations_file %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <tr>
+                            <th class="align-middle" scope="row">{{ document.id }}</th>
+                            <td class="align-middle">{{ document.docfile.name }}</td>
+                            <td class="align-middle">
+                                <a href="{% url 'import_location_data' document.id %}" class="btn btn-danger btn-sm">Import</a>
+                            </td>
+                            <td class="align-middle">
+                                <a href="{% url 'delete_location_file' document.id %}" class="btn btn-warning btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    </form>
+                {% elif accounts_view and document.accounts_file %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <tr>
+                            <th class="align-middle" scope="row">{{ document.id }}</th>
+                            <td class="align-middle">{{ document.docfile.name }}</td>
+                            <td class="align-middle">
+                                <a href="{% url 'import_accounts_data' document.id %}" class="btn btn-danger btn-sm">Import</a>
+                            </td>
+                            <td class="align-middle">
+                                <a href="{% url 'delete_accounts_file' document.id %}" class="btn btn-warning btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    </form>
+                {% elif docking_records_view and document.docking_records_file %}
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <tr>
+                            <th class="align-middle" scope="row">{{ document.id }}</th>
+                            <td class="align-middle">{{ document.docfile.name }}</td>
+                            <td class="align-middle">
+                                <a href="{% url 'import_records_data' document.id %}" class="btn btn-danger btn-sm">Import</a>
+                            </td>
+                            <td class="align-middle">
+                                <a href="{% url 'delete_records_file' document.id %}" class="btn btn-warning btn-sm">Delete</a>
+                            </td>
+                        </tr>
+                    </form>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

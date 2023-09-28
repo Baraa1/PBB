@@ -1,0 +1,9 @@
+<script>
+    stands_chart.data.labels = [{% for stand, value in stands_dict.items %}'{{ stand }} ({{ value }})',{% endfor %}];
+    stands_chart.data.datasets = [{
+        label: 'Records per Stand',
+        data: [{% for stand, value in stands_dict.items %}'{{ value }}',{% endfor %}],
+        borderWidth: 1
+    }];
+    stands_chart.update()
+</script>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Accounts {% endblock %}
+
+{% block specific_links %}
+    {% if perms.accounts.add_customuser %}
+        <a href="#" class="text-decoration-none d-flex align-items-center mx-3 mt-2 p-1 rounded bg-success border border-success border-opacity-25 text-success-emphasis fw-bold" style="--bs-bg-opacity: .1;">
+            <span class="material-symbols-outlined p-1 fs-3">edit</span>
+            <div class="p-0">Update Account</div>
+        </a>
+        <a href="{% url 'create_account' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">person_add</span>
+            <div class="p-0">Create a New Account</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    <div class="form-wrapper">
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'accounts/forms/account-form.html' %}
+                <!-- Button here because user form is used in more than one pages with diffrent functions-->
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">Update</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-outline-danger btn-lg">Delete User</button>
+                </div>
+            </div>
+        </form>
+        {% include 'accounts/htmx/delete-account-modal.html' %}
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--Bootstrap JS-->
+    <script src="{% static 'js/popovers.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,8 @@
+<script>
+    month_chart.data.datasets = [{
+        label: 'Records per week',
+        data: [{% for week, value in weeks_dict.items %}'{{ value }}',{% endfor %}],
+        borderWidth: 1
+    }];
+    month_chart.update()
+</script>

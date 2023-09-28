@@ -1,0 +1,24 @@
+<form class="users-filter" method="post" enctype="multipart/form-data" action="" id="month-pie-chart-form">
+  {% csrf_token %}
+  <table class="table table-striped table-bordered table-sm">
+    <tbody>
+      <tr class="form-floating mb-3">
+        <td class="align-middle">
+          <label for="from" class="month form-label">From</label>
+          <input type="date" name="users-from" class="stop-enter form-control form-control-sm">
+        </td>
+        
+        <td class="align-middle">
+          <label for="to" class="month form-label">To</label>
+          <input type="date" name="users-to" class="stop-enter form-control form-control-sm">
+        </td>
+
+        <td class="hidden">
+          <button type="button" class="btn btn-primary btn-md"
+          hx-post="{% url 'filter_users' %}"
+          hx-trigger="keydown[key=='Enter'] from:#users-bar-chart-form" hx-target="#users-bar-chart-js" hx-swap="afterend">Filter</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

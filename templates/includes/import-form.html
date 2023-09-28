@@ -1,0 +1,17 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+
+    <div class="mb-3">
+        <label for="docfile">Upload</label>
+        {% if form.docfile.errors %}
+            {% render_field form.docfile class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.docfile.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+            {% for error in form.docfile.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.docfile class="js-input-target form-control " tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.docfile.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+        {% endif %}
+    </div>
+</div>

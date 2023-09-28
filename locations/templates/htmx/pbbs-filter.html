@@ -1,0 +1,39 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<form class="filter-form" method="post" enctype="multipart/form-data" action="" novalidate>
+    {% csrf_token %}
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr class="filter-form mb-3">
+                <td class="mb-3 fr-inp">
+                    <label for="id_pbb_name" class="form-label">Pbb Name</label>
+                    {% render_field pbb_filter.form.pbb_name class="stop-enter form-control" %}
+                </td>
+                
+                <td class="mb-3 fr-inp">
+                    <label for="id_stand_name" class="form-label">Stand Name</label>
+                    {% render_field pbb_filter.form.stand_name class="stop-enter form-select"%}
+                </td>
+
+                <td class="mb-3 fr-inp">
+                    <label for="id_gate_name" class="form-label">Gate Name</label>
+                    {% render_field pbb_filter.form.gate_name class="stop-enter form-select"%}
+                </td>
+                
+                <td class="mb-3 fr-inp">
+                    <label for="id_terminal_name" class="form-label">Terminal Name</label>
+                    {% render_field pbb_filter.form.terminal_name class="stop-enter form-select"%}
+                </td>
+
+                <td class="hidden">
+                    <button type="button" class="btn btn-primary btn-lg"
+                    hx-post="{% url 'pbbs' %}"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-trigger="keydown[key=='Enter'] from:.filter-form" hx-target="#pbbs-table" hx-swap="innerHTML"
+                    >Filter</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

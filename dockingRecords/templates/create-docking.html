@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Add a New Docking Record {% endblock %}
+
+{% block specific_links %}
+    {% if perms.dockingRecords.view_dockingrecord %}
+        <a href="{% url 'create_docking' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">assignment_add</span>
+            <div class="p-0">New Record</div>
+        </a>
+        <a href="{% url 'create_nodocking' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">assignment_add</span>
+            <div class="p-0">New UnDocking <b>(No Docking Record)</b></div>
+        </a>
+        <a href="{% url 'flight_schedule' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+            <div class="p-0">Flight Schedule</div>
+        </a>
+        <a href="https://www.airportia.com/saudi-arabia/king-fahd-international-airport/" target="_blank" class="sub-link text-decoration-none text-light d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+            <div class="p-0">Airportia.com</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    <div class="form-wrapper">
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'includes/docking-form.html' %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% comment %}
+{% block floating_btn %}
+    <a href="{% url 'dockings' %}" class="btn btn-primary rounded-circle position-fixed bottom-0 end-0 m-5">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="48" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+        </svg>
+    </a>
+{% endblock %}
+{% endcomment %}
+
+{% block JS %}
+    <script src="{% static 'js/docking-form.js' %}"></script>
+    <!--Bootstrap JS-->
+{% endblock %}

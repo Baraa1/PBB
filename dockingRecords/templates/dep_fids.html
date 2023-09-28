@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} FIDS {% endblock %}
+{% block custom_btn %}
+    <a class="btn btn-warning" href="{% url 'dockings' %}">Records</a>
+    <a class="btn btn-success" href="{% url 'arrival_schedule' %}">A_Schedule</a>
+{% endblock %}
+{% block search_field %}
+    {% include "includes/fids-search-form.html" %}
+{% endblock %}
+
+{% block specific_links %}
+    {% if perms.dockingRecords.view_dockingrecord %}
+        <a href="{% url 'flight_schedule' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+        <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+        <div class="p-0">Flight Schedule</div>
+        </a>
+        <a href="https://www.airportia.com/saudi-arabia/king-fahd-international-airport/" target="_blank" class="sub-link text-decoration-none text-light d-flex align-items-center ms-3 mt-2 p-1 rounded">
+        <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+        <div class="p-0">Airportia.com</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    <div class="messages alert alert-danger alert-dismissible fade show" role="alert">
+        This is <b>not</b> an official Schedule
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div id="docking-records-table">
+        {% include "tables/fids-dep-table.html" %}
+    </div>
+{% endblock %}
+{% block floating_btn %}
+    <div class="floating-btn dropup rounded-circle">
+        <button class="btn btn-primary btn-lg rounded-circle position-absolute bottom-0 end-0 show shadow-lg" type="button" data-bs-toggle="dropdown" aria-expanded="true">+</button>
+        <ul class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+            <li><h6 class="dropdown-header">{{ user.first_name }} {{ user.last_name }}</h6></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn btn-primary" href="{% url 'create_docking' %}">New Record</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a  class="dropdown-item btn btn-secondary" href="{% url 'create_nodocking' %}">UnDocking <b>(No Docking Record)</b></a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block JS %}
+    <script src="{% static 'js/fids.js' %}"></script>
+    <!--HTMX JS-->
+    <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+{% endblock %}

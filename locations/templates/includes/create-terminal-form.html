@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+
+    <p>Terminal Information</p>
+    <div class="form-floating fr-inp">
+        {% if form.terminal_name.errors %}
+            {% render_field form.terminal_name class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.terminal_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+            {% for error in form.terminal_name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.terminal_name class="js-input-target form-control" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.terminal_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+        {% endif %}
+        <label for="terminal_name">Terminal Name</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.iata_code.errors %}
+            {% render_field form.iata_code class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.iata_code.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+            {% for error in form.iata_code.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.iata_code class="js-input-target form-control " tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.iata_code.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+        {% endif %}
+        <label for="iata_code">IATA code</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.icao_code.errors %}
+            {% render_field form.icao_code class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.icao_code.help_text data-bs-original-title="ID" aria-describedby="user-id-help-text" %}
+            {% for error in form.icao_code.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.icao_code class="js-input-target form-control" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.icao_code.help_text data-bs-original-title="ID" aria-describedby="user-id-help-text" %}
+        {% endif %}
+        <label for="user-id">ICAO Code</label>
+    </div>
+</div>
+<hr>

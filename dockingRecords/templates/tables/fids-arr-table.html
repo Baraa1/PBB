@@ -1,0 +1,71 @@
+{% load new_filters %}
+
+<div class="table-container">
+    <table class="table table-striped table-bordered table-hover">
+        <caption>Total: {{ total_records }}</caption>
+        <thead class="table-dark">
+            <tr>
+                <th class="align-middle phone" scope="col">Flight_IATA</th>
+                <th class="align-middle" scope="col">Dock</th>
+                {% comment %}
+                <th class="align-middle " scope="col">Status</th>
+                <th class="align-middle phone" scope="col">From</th>
+                <th class="align-middle " scope="col">Arr_Est_Time</th>
+                <th class="align-middle phone" scope="col">Aircraft type</th>
+                <th class="align-middle phone" scope="col">Aircraft Registration</th>
+                <th class="align-middle phone" scope="col">Delayed</th>
+                {% endcomment %}
+            </tr>
+        </thead>
+        <tbody id="fids-table">
+            {% for element in arr_schedule %}
+                <tr>
+                    <td class="align-middle phone" id="{{ element|get_value:'flight_iata' }}One" data-bs-toggle="collapse" data-bs-target="#{{ element|get_value:'flight_iata' }}" aria-expanded="false" aria-controls="{{ element|get_value:'flight_iata' }}">{{ element|get_value:'flight_iata' }}</td>
+                    <td class="align-middle phone">
+                        <a href="{% url 'create_docking_fids' element|get_value:'flight_iata' %}" class="btn btn-primary btn-sm">Dock</a>
+                    </td>
+                </tr>
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle table-warning" scope="col">Status</th>
+                    {% if element|get_value:'status' == 'en-route' %}
+                        <td class="align-middle phone" style="color: red;">{{ element|get_value:'status' }}</td>
+                    {% elif element|get_value:'status' == 'landed' %}
+                        <td class="align-middle phone" style="color: green;">{{ element|get_value:'status' }}</td>
+                    {% elif element|get_value:'status' == 'scheduled' %}
+                        <td class="align-middle phone" style="color: blue;">{{ element|get_value:'status' }}</td>
+                    {% elif element|get_value:'status' == 'cancelled' %}
+                        <td class="align-middle phone" style="color: grey;">{{ element|get_value:'status' }}</td>
+                    {% endif %}
+                </tr>
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle phone table-warning" scope="col">From</th>
+                    <td class="align-middle phone">{{ element|get_value:'dep_iata' }}</td>
+                </tr>
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle table-warning" scope="col">Arr_Estimated_Time</th>
+                    <td class="align-middle phone">{{ element|unix_to_datetime:'arr_estimated_ts'|date:'H:i' }}</td>
+                </tr>
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle table-warning" scope="col">Aircraft type</th>
+                    <td class="align-middle">{{ element|get_value:'aircraft_icao' }}</td>
+                </tr>
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle table-warning" scope="col">Aircraft Registration</th>
+                    <td class="align-middle">{{ element|get_value:'reg_number' }}</td>
+                </tr>
+                
+                <tr id="{{ element|get_value:'flight_iata' }}" class="accordion-collapse collapse" aria-labelledby="{{ element|get_value:'flight_iata' }}One" data-bs-parent="#fids-table" style="">
+                    <th class="align-middle table-warning" scope="col">Delayed</th>
+                    <td class="align-middle">
+                        {% if element|get_value:'arr_delayed' == None %}
+                            0
+                        {% else%}
+                            <u style="color:red;">{{ element|get_value:'arr_delayed' }}</u>
+                        {% endif %}
+                        Minutes
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

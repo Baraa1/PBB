@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block title %} Dashboard {% endblock %}
+{% block display-content %}
+  <div class="fluid-container py-3 px-2">
+    <div class="row">
+      <div class="col-md">
+        <div class="data-box box1 border-opacity-25">
+          <i class="material-icons icon" style="color: #FF6384;">assignment</i>
+          <h3 style="color: #FF6384;">{{ todays_records }}</h3>
+          <p>Flights served today</p>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="data-box box2">
+          <span class="material-symbols-outlined" style="color: #36A2EB;">gate</span>
+          <h3 style="color: #36A2EB;">{{ busiest_stand.total }} Flights Served</h3>
+          <p>{{ busiest_stand.stand }} is the busiest stand</p>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="data-box box3">
+          <i class="material-icons icon" style="color: #37ce56;">person</i>
+          <h3 style="color: #37ce56;">Most Records: {{ busiest_operator.total }}</h3>
+          <p>By <b>{{ busiest_operator.name }}</b></p>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="data-box box4">
+          <i class="material-icons icon" style="color: #4BC0C0;">assignment</i>
+          <h3 style="color: #4BC0C0;">{{ total_records }}</h3>
+          <p>Flights served</p>
+        </div>
+      </div>
+      <div class="col-md">
+        <div class="data-box box5">
+          <i class="material-icons icon" style="color: #F08080;">groups</i>
+          <h3 style="color: #F08080;">{{ total_operators }}</h3>
+          <p>Operators</p>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--Div that will hold the pie chart-->
+<div class="charts">
+  {% include 'filters/month-filter.html' %}
+  <div class="small-chart1">
+    <p>Records per Week</p>
+    <canvas id="chart1"></canvas>
+  </div>
+
+  {% include 'filters/stands-filter.html' %}
+  <div class="small-chart2">
+    <p>Records per Stand</p>
+    <canvas id="chart2"></canvas>
+  </div>
+  
+  {% include 'filters/users-filter.html' %}
+  <div class="big-chart">
+    <p>Records per User</p>
+    <canvas id="chart3"></canvas>
+  </div> 
+</div>
+{% endblock %}
+{% block JS %}
+  <!-- Chart JS-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- auto color plugin https://github.com/kurkle/chartjs-plugin-autocolors -->
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-autocolors"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+  <script>
+    const autocolors = window['chartjs-plugin-autocolors'];
+    Chart.register(autocolors);
+    Chart.register(ChartDataLabels)
+  </script>
+  <div id="month-pie-chart-js">{% include 'charts/month-records-chart.html' %}</div>
+  <div id="stands-pie-chart-js">{% include 'charts/stand-records-chart.html' %}</div>
+  <div id="users-bar-chart-js">{% include 'charts/user-records-chart.html' %}</div>
+  <!--HTMX JS-->
+  <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+{% endblock %}

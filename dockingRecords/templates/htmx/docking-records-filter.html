@@ -1,0 +1,79 @@
+{% load widget_tweaks %}
+{% load static %}
+<form class="filter-form" method="post" enctype="multipart/form-data" action="{% url 'export_search_logs' %}" novalidate>
+    {% csrf_token %}
+    <table class="table table-striped table-bordered">
+        <tbody>
+
+            <tr class="form-floating mb-3">
+                <td class="align-middle">
+                    <label for="location" class="form-label">Terminal</label>
+                    {% render_field records_filter.form.terminal class="stop-enter form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="operator1" class="form-label">(A) Operator</label>
+                    {% render_field records_filter.form.operator1 class="stop-enter form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="flight_no1" class="form-label">(A) Flight No</label>
+                    {% render_field records_filter.form.flight_no1 class="form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="flight_no2" class="form-label">(D) Flight No</label>
+                    {% render_field records_filter.form.flight_no2 class="form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="ac_type" class="form-label">Aircraft type</label>
+                    {% render_field records_filter.form.ac_type class="form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="ac_reg" class="form-label">Aircraft Reg</label>
+                    {% render_field records_filter.form.ac_reg class="form-control form-control-sm" %}
+                </td>
+            </tr>
+            <tr class="form-floating mb-3">
+                <td class="align-middle">
+                    <label for="stand" class="form-label">Stand</label>
+                    {% render_field records_filter.form.stand class="stop-enter form-control form-control-sm" %}
+                </td>
+                <td class="align-middle">
+                    <label for="docked" class="form-label">no Docking</label>
+                    {% render_field records_filter.form.no_docking class="stop-enter form-control form-control-sm" type="datetime-local" %}
+                </td>
+                <td class="align-middle">
+                    <label for="docked" class="form-label">Docked: From - To</label>
+                    {% render_field records_filter.form.docked class="stop-enter form-control form-control-sm" type="datetime-local" %}
+                    {% render_field records_filter.form.docked_d class="stop-enter form-control form-control-sm" type="datetime-local" %}
+                </td>
+                <td class="align-middle">
+                    <label for="undocked" class="form-label">Undocked: From - To</label>
+                    {% render_field records_filter.form.undocked class="stop-enter form-control form-control-sm" type="datetime-local" %}
+                    {% render_field records_filter.form.undocked_d class="stop-enter form-control form-control-sm" type="datetime-local" %}
+                </td>
+                <td class="align-middle">
+                    <label for="chocks_on" class="form-label">Chocks On</label>
+                    {% render_field records_filter.form.chocks_on class="stop-enter form-control form-control-sm" type="time" %}
+                </td>
+                <td class="align-middle">
+                    <label for="door_close" class="form-label">Door Close</label>
+                    {% render_field records_filter.form.door_close class="stop-enter form-control form-control-sm" type="time" %}
+                </td>
+            </tr>
+            <!--td class="hidden align-middle">
+                <button type="button" class="hidden btn btn-primary btn-md"
+                hx-post="{% url 'dockings' %}"
+                hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                hx-trigger="keydown[key=='Enter'] from:.filter-form" hx-target="#docking-records-table" hx-swap="innerHTML">Filter</button>
+            </td-->
+            <td class="align-middle" colspan='7'>
+                <div class="d-flex justify-content-evenly">
+                    <button type="button" class="w-50 m-1 btn btn-primary btn-md"
+                    hx-post="{% url 'dockings' %}"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-trigger="click" hx-target="#docking-records-table" hx-swap="innerHTML">Filter</button>
+                    <button type="submit" class="w-50 m-1 btn btn-warning btn-md">Export</button>
+                </div>
+            </td>
+        </tbody> 
+    </table>
+</form>

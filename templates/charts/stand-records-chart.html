@@ -1,0 +1,47 @@
+<script>
+    const ctx2 = document.getElementById('chart2');
+
+    const stands_chart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+          labels: [{% for stand, value in stands_dict.items %}'{{ stand }} ({{ value }})',{% endfor %}],
+          datasets: [{
+              label: 'Records',
+              data: [{% for stand, value in stands_dict.items %}'{{ value }}',{% endfor %}],
+              borderWidth: 1
+              }]
+        },
+        options: {
+          aspectRatio: 1.5,
+          // Keeps the chart from overflowing if set to false
+          maintainAspectRatio: true,
+
+          // auto color plugin https://github.com/kurkle/chartjs-plugin-autocolors
+          plugins: {
+            legend: {
+              display:true,
+              position:'right',
+              labels: {
+                padding:10,
+                font: {
+                  size:14,
+                  weight:'bold',
+                },
+              },
+            },
+            autocolors: {
+            mode: 'data'
+            },
+            datalabels: {
+              formatter: (value, ctx) => {
+                  const datapoints = ctx.chart.data.datasets[0].data
+                  const total = datapoints.reduce((total, datapoint) => total + parseInt(datapoint), 0);
+                  const percentage = value / total * 100
+                  return `${percentage.toFixed(2)}%`;
+              },
+              color: '#000',
+            }
+          },
+        }
+    });
+</script>

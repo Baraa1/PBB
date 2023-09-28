@@ -1,0 +1,111 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+    <p>Personal Information</p>
+    <div class="form-floating fr-inp">
+        {% if form.first_name.errors %}
+            {% render_field form.first_name class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.first_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+            {% for error in form.first_name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.first_name class="js-input-target form-control" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.first_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+        {% endif %}
+        <label for="first_name">First Name</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.last_name.errors %}
+            {% render_field form.last_name class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.last_name.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+            {% for error in form.last_name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.last_name class="js-input-target form-control " tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.last_name.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+        {% endif %}
+        <label for="last_name">Last Name</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.user_id.errors %}
+            {% render_field form.user_id class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.user_id.help_text data-bs-original-title="ID" aria-describedby="user-id-help-text" %}
+            {% for error in form.user_id.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.user_id class="js-input-target form-control" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.user_id.help_text data-bs-original-title="ID" aria-describedby="user-id-help-text" %}
+        {% endif %}
+        <label for="user-id">ID</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Account Information</p>
+
+    <div class="form-floating fr-inp">
+        {% if form.username.errors %}
+            {% render_field form.username class="js-input-target form-control is-invalid"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.username.help_text data-bs-original-title="Username" aria-describedby="username-help-text" %}
+            {% for error in form.username.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.username class="js-input-target form-control"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.username.help_text data-bs-original-title="Username" aria-describedby="username-help-text" %}
+        {% endif %}
+        <label for="username">Username</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.email.errors %}
+            {% render_field form.email class="js-input-target form-control is-invalid"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.email.help_text data-bs-original-title="E-mail" aria-describedby="email-help-text" %}
+            {% for error in form.email.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.email class="js-input-target form-control"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.email.help_text data-bs-original-title="E-mail" aria-describedby="email-help-text" %}
+        {% endif %}
+        <label for="email">E-mail</label>
+    </div>
+    {% if form.password %}
+        <div class="form-floating fr-inp">
+            {% if form.password.errors %}
+                {% render_field form.password class="js-input-target form-control is-invalid"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.password.help_text data-bs-original-title="Password" aria-describedby="password-help-text" %}
+                {% for error in form.password.errors  %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            {% else %}
+                {% render_field form.password class="js-input-target form-control"  tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus"  data-bs-content=form.password.help_text data-bs-original-title="Password" aria-describedby="password-help-text" %}
+            {% endif %}
+            <label for="password">Password</label>
+        </div>
+    {% endif %}
+</div>
+<hr>
+<div class="form-row">
+    <p>Terminal and Roles</p>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.location.errors %}
+            {% render_field form.location class="form-select is-invalid" id="location" required="" %}
+            {% for error in form.location.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.location class="form-select" id="location" required="" %}
+        {% endif %}
+        <label for="location" class="form-label">Terminal</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.groups.errors %}
+            {% render_field form.groups class="form-select is-invalid" id="groups" required="" %}
+            {% for error in form.groups.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.groups class="form-select" id="groups" required="" %}
+        {% endif %}
+        <label for="groups" class="form-label">Role</label>
+    </div>
+</div>
+<hr>

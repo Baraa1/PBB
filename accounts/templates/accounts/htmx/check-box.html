@@ -1,0 +1,22 @@
+{% comment %}
+using JS the default css behazvior will be prevented but if the user clicks ok then input 
+element will be replaced with another one and show the correct user status
+{% endcomment %}
+<!--input hx-post="{% url 'deactivate_account' user.id %}"
+hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+hx-trigger="click" hx-target="#flexSwitchCheckChecked" hx-swap="outerHTML"
+class="form-check-input"
+type="checkbox" role="switch" name="flexSwitchCheckChecked" id="flexSwitchCheckChecked"
+{% if user.is_active %}
+    checked=""
+    hx-confirm="Deactivate {{ user.username }} account?"
+{% else %}
+    hx-confirm="Activate {{ user.username }} account?"
+{% endif %}>
+{% comment %} script added here to add the event listener to the new element{% endcomment %}
+<script>deactivate_acc();</script-->
+
+<input data-bs-toggle="modal" data-bs-target="#{{ account.username }}Modal" class="deactivate form-check-input" type="checkbox" role="switch" name="{{ account.username }}flexSwitchCheckChecked" id="{{ account.username }}flexSwitchCheckChecked" {% if account.is_active %}checked=""{% endif %}>
+
+{% comment %} script added here to add the event listener to the new element{% endcomment %}
+<script>deactivate_acc()</script>

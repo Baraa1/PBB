@@ -1,0 +1,38 @@
+<form method="post" class="search-form" role="search">
+    {% csrf_token %}
+    <input type="text" class="stop-enter search-bar form-control form-control-sm" name="search-bar" placeholder="Search accounts" aria-label="Search"
+    hx-post="{% url 'search_accounts' %}"
+    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+    hx-trigger="input delay:2s" hx-target="#accounts-table" hx-swap="innerHTML">
+    <div class="search-checks">
+        <div class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="username" value="username" checked="">
+            <label class="btn btn-primary" for="username">by <b>Uesrname</b></label>
+
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="first_name" value="first_name">
+            <label class="btn btn-primary" for="first_name">by <b>First Name</b></label>
+            
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="last_name" value="last_name">
+            <label class="btn btn-primary" for="last_name">by <b>Last Name</b></label>
+            
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="user_id" value="user_id">
+            <label class="btn btn-primary" for="user_id">by <b>ID</b></label>
+            
+            <input type="radio" class="form-check-input btn-check" name="search-radios" id="email" value="email">
+            <label class="btn btn-primary" for="email">by <b>E-Mail</b></label>
+        </div>
+    </div>
+</form>
+<script>
+    function search_htmx() {
+        const checkboxes = document.querySelectorAll('.form-check')
+        checkboxes.forEach(box => {
+           box.setAttribute("hx-post","{% url 'search_accounts' %}");
+           box.setAttribute("hx-headers", '{"X-CSRFToken": "{{ csrf_token }}"}');
+           box.setAttribute("hx-trigger", "click");
+           box.setAttribute("hx-target", "#accounts-table");
+           box.setAttribute("hx-swap", "innerHTML");
+        })
+     }
+    search_htmx();
+</script>

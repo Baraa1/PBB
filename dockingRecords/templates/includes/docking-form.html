@@ -1,0 +1,174 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+    <p>General Information</p>
+    <div class="form-floating fr-inp">
+        {% if form.stand.errors %}
+            {% render_field form.stand class="form-control form-control-sm is-invalid" %}
+            {% for error in form.stand.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.stand id="stand" class="form-control form-control-sm" %}
+        {% endif %}
+        <label for="stand">Stand</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.operator1.errors %}
+            {% render_field form.operator1 class="disabled-input form-control form-control-sm is-invalid" value=current_user.id %}
+            {% for error in form.operator1.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.operator1 class="disabled-input form-control form-control-sm " value=current_user.id %}
+        {% endif %}
+        <label for="operator1">Operator</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Aircraft Information</p>
+
+    <div class="form-floating fr-inp">
+        {% if form.flight_no1.errors %}
+            {% render_field form.flight_no1 name="flight_no1" class="form-control form-control-sm is-invalid" %}
+            {% for error in form.flight_no1.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.flight_no1 name="flight_no1" class="form-control form-control-sm" %}
+        {% endif %}
+        {% include 'lists/flight-no1.html' %}
+        <label for="flight_no1">Flight Number</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.ac_type.errors %}
+            {% render_field form.ac_type name="ac_type" class="form-control form-control-sm is-invalid" %}
+            {% for error in form.ac_type.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.ac_type name="ac_type" class="form-control form-control-sm" %}
+        {% endif %}
+        {% include 'lists/ac-type.html' %}
+        <label for="ac_type">Aircraft Type</label>
+    </div>
+    
+    <div class="form-floating fr-inp">
+        {% if form.ac_reg.errors %}
+            {% render_field form.ac_reg name="ac_reg" class="form-control form-control-sm is-invalid" %}
+            {% for error in form.ac_reg.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.ac_reg name="ac_reg" class="form-control form-control-sm" %}
+        {% endif %}
+        {% include 'lists/ac-reg.html' %}
+        <label for="ac_reg">Aircraft Registration Number</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Date and time</p>
+    
+    <div class="form-floating fr-inp">
+        {% if form.chocks_on.errors %}
+            {% render_field form.chocks_on name="chocks_on" class="form-control form-control-sm is-invalid" id="chocks_on" %}
+            {% for error in form.chocks_on.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.chocks_on name="chocks_on" class="form-control form-control-sm" id="chocks_on" %}
+        {% endif %}
+        <label for="chocks_on">Chocks On</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.docked.errors %}
+            {% render_field form.docked name="docked" class="form-control form-control-sm is-invalid" id="docked" %}
+            {% for error in form.docked.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.docked name="docked" class="form-control form-control-sm" id="docked" %}
+        {% endif %}
+        <label for="docked">Docked</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>PBB 2 (Bravo) Used</p>
+
+    <div class="mb-3 fr-inp">
+        {% if form.b_used.errors %}
+            {% render_field form.b_used name="b_used" class="disabled-input form-control form-control-sm is-invalid" id="b_used" %}
+            {% for error in form.b_used.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.b_used name="b_used" class="disabled-input form-control form-control-sm" id="b_used" %}
+        {% endif %}
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.b_docked.errors %}
+            {% render_field form.b_docked name="b_docked" class="form-control form-control-sm is-invalid" id="b_docked" disabled="" %}
+            {% for error in form.b_docked.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.b_docked name="b_docked" class="form-control form-control-sm" id="b_docked" disabled="" %}
+        {% endif %}
+        <label for="b_docked">Docking Time</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>PBB 3 (Charlie) Used</p>
+
+    <div class="mb-3 fr-inp">
+        {% if form.c_used.errors %}
+            {% render_field form.c_used name="c_used" class="disabled-input form-control form-control-sm is-invalid" id="c_used" %}
+            {% for error in form.c_used.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.c_used name="c_used" class="disabled-input form-control form-control-sm" id="c_used" %}
+        {% endif %}
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.c_docked.errors %}
+            {% render_field form.c_docked name="c_docked" class="form-control form-control-sm is-invalid" id="c_docked" disabled="" %}
+            {% for error in form.c_docked.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.c_docked name="c_docked" class="form-control form-control-sm" id="c_docked" disabled="" %}
+        {% endif %}
+        <label for="c_docked">Docking Time</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Optional Fields</p>
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.remarks.errors %}
+            {% render_field form.remarks name="remarks" class="form-control form-control-sm is-invalid" id="remarks" %}
+            {% for error in form.remarks.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.remarks name="remarks" class="form-control form-control-sm" id="remarks" %}
+        {% endif %}
+        {% include 'lists/remarks.html' %}
+        <label for="remarks">Remarks</label>
+    </div>
+</div>
+<hr>
+<div class="fr-btn">
+    <button type="submit" class="btn btn-success btn-lg">Add Record</button>
+</div>

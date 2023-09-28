@@ -1,0 +1,104 @@
+<div class="sidebar text-bg-dark">
+    {% if user.is_authenticated %}
+        <ul class="nav flex-column">
+          {% if perms.dockingRecords.view_dockingrecord %}
+            <li class="mx-0 my-0 border-0">
+              <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#docking-records-collapse" aria-expanded="false">Docking Records</button>
+              <div class="collapse" id="docking-records-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'dockings' %}" class="sub-link d-inline-flex text-decoration-none  ">Records</a></li>
+                  <li><a href="{% url 'create_docking' %}" class="sub-link d-inline-flex text-decoration-none  ">Add a Record</a></li>
+                </ul>
+              </div>
+            </li>
+            <li class="mx-0 my-1 border-0">
+              <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#flight-schedules-collapse" aria-expanded="false">Flight Schedules</button>
+              <div class="collapse" id="flight-schedules-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'flight_schedule' %}" class="sub-link d-inline-flex text-decoration-none  ">Flight Schedule</a></li>
+                  <li><a href="https://www.airportia.com/saudi-arabia/king-fahd-international-airport/" target="_blank" class="sub-link d-inline-flex text-decoration-none  ">Airportia.com</a></li>
+                </ul>
+              </div>
+            </li>
+          {% endif %}
+          {% if perms.accounts.view_customuser %}
+              <li class="mx-0 my-1 border-0">
+                <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#users-collapse" aria-expanded="false">Accounts</button>
+                <div class="collapse" id="users-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="{% url 'accounts' %}" class="sub-link d-inline-flex text-decoration-none  ">Accounts</a></li>
+                    <li><a href="{% url 'create_account' %}" class="sub-link d-inline-flex text-decoration-none  ">Create a new Account</a></li>
+                  </ul>
+                </div>
+              </li>
+          {% endif %}
+          {% if perms.accounts.view_customuser %}
+              <li class="mx-0 my-1 border-0">
+                <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#departments-collapse" aria-expanded="false">Departments</button>
+                <div class="collapse" id="departments-collapse">
+                  <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    <li><a href="{% url 'departments' %}" class="sub-link d-inline-flex text-decoration-none  ">Departments</a></li>
+                    <li><a href="{% url 'job_titles' %}" class="sub-link d-inline-flex text-decoration-none  ">Job Titles</a></li>
+                  </ul>
+                </div>
+              </li>
+          {% endif %}
+          <li class="mx-0 my-1 border-0">
+            <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#leaves-collapse" aria-expanded="false">Leaves</button>
+            <div class="collapse" id="leaves-collapse">
+              <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                {% if perms.LMS.view_leavelimit %}
+                  <li><a href="{% url 'leave_limits' %}" class="sub-link d-inline-flex text-decoration-none  ">Leave Limits</a></li>
+                {% endif %}
+                {% if perms.LMS.view_leavetype %}
+                  <li><a href="{% url 'leave_types' %}" class="sub-link d-inline-flex text-decoration-none  ">Leave Types</a></li>
+                {% endif %}
+                {% if perms.LMS.view_assignleave %}
+                  <li><a href="{% url 'assigned_leaves' %}" class="sub-link d-inline-flex text-decoration-none  ">Assigned Leaves</a></li>
+                {% endif %}
+                {% if perms.LMS.view_leaverequest %}
+                  <li><a href="{% url 'leave_requests' %}" class="sub-link d-inline-flex text-decoration-none  ">Leaves</a></li>
+                {% endif %}
+                <li><a href="{% url 'employee_leave_requests' %}" class="sub-link d-inline-flex text-decoration-none  ">My Leave Requests</a></li>
+                <li><a href="{% url 'employee_assigned_leaves' %}" class="sub-link d-inline-flex text-decoration-none  ">My Leaves</a></li>
+              </ul>
+              </div>
+            </li>
+          {% if perms.locations.view_terminal %}
+            <li class="mx-0 my-1 border-0">
+              <!-- the btn should be inline for the arrow to work -->
+              <!-- data-bs-target targets the ul element using the id -->
+              <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#location-collapse" aria-expanded="false">Location</button>
+              <div class="collapse" id="location-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'terminals' %}" class="sub-link d-inline-flex text-decoration-none">Terminals</a></li>
+                  <li><a href="{% url 'create_terminal' %}" class="sub-link d-inline-flex text-decoration-none ">Add a Terminal</a></li>
+                  <hr>
+                  <li><a href="{% url 'gates' %}" class="sub-link d-inline-flex text-decoration-none">Gates</a></li>
+                  <li><a href="{% url 'create_gate' %}" class="sub-link d-inline-flex text-decoration-none ">Add a Gate</a></li>
+                  <hr>
+                  <li><a href="{% url 'stands' %}" class="sub-link d-inline-flex text-decoration-none">Stands</a></li>
+                  <li><a href="{% url 'create_stand' %}" class="sub-link d-inline-flex text-decoration-none ">Add a Stand</a></li>
+                  <hr>
+                  <li><a href="{% url 'pbbs' %}" class="sub-link d-inline-flex text-decoration-none">PBBs</a></li>
+                  <li><a href="{% url 'create_pbb' %}" class="sub-link d-inline-flex text-decoration-none ">Add a PBB</a></li>
+                  
+                </ul>
+              </div>
+            </li>
+          {% endif %}
+          {% if perms.locations.change_terminal and perms.accounts.change_customuse and perms.dockingRecords.change_dockingrecord %}
+            <li class="mx-0 my-1 border-0">
+              <button class="sidebar-btn btn-toggle d-inline-flex align-items-center border-0" data-bs-toggle="collapse" data-bs-target="#uploads-collapse" aria-expanded="false">Imports</button>
+              <div class="collapse" id="uploads-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                  <li><a href="{% url 'upload_accounts_file' %}" class="sub-link d-inline-flex text-decoration-none  ">Upload Accounts Import data</a></li>
+                  <li><a href="{% url 'upload_location_file' %}" class="sub-link d-inline-flex text-decoration-none  ">Upload Location Import data</a></li>
+                  <li><a href="{% url 'upload_records_file' %}" class="sub-link d-inline-flex text-decoration-none  ">Upload Docking Records Import data</a></li>
+                </ul>
+              </div>
+            </li>
+            {% endif %}
+        </ul>
+    {% endif %}
+  </div>

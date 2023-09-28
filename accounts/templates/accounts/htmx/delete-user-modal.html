@@ -1,0 +1,18 @@
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Deleting this account <b><u>{{ "will delete all records created by this user"|upper }}</u></b>. You can <u>Deactivate the account</u> to restrict the user from accessing the website.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                <a href="{% url 'delete_account' userid %}" type="button" class="btn btn-danger">DELETE</a>
+            </div>
+        </div>
+    </div>
+</div>

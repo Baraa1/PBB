@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Terminals {% endblock %}
+{% block display-content %}
+    <div class="form-wrapper">
+        <p class="form-title">Add a New Terminal</p>
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'includes/create-terminal-form.html' %}
+                <!-- Button here because user form is used in more than one pages with diffrent functions-->
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Add Terminal</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--Bootstrap JS-->
+    <script src="{% static 'js/popovers.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+
+    <p>Stand Information</p>
+    <div class="form-floating fr-inp">
+        {% if form.gate_name.errors %}
+            {% render_field form.gate_name class="form-select is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.gate_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+            {% for error in form.gate_name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.gate_name class="form-select" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.gate_name.help_text data-bs-original-title="First Name" aria-describedby="first-name-help-text" %}
+        {% endif %}
+        <label for="gate_name">Gate</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        {% if form.stand_name.errors %}
+            {% render_field form.stand_name class="js-input-target form-control is-invalid" tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.stand_name.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+            {% for error in form.stand_name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.stand_name class="js-input-target form-control " tabindex="0" data-bs-toggle="popover" data-bs-trigger="focus" data-bs-content=form.stand_name.help_text data-bs-original-title="Last Name" aria-describedby="last-name-help-text" %}
+        {% endif %}
+        <label for="stand_name">Stand Name</label>
+    </div>
+</div>
+<hr>

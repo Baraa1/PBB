@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Upload Location data {% endblock %}
+{% block display-content %}
+    <div class="form-wrapper">
+        <p class="form-title">Upload Gates, Stands, PBBs file</p>
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'includes/import-form.html' %}
+                <!-- Button here because user form is used in more than one pages with diffrent functions-->
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-primary btn-lg">Upload</button>
+                    <a href="{% url 'locations_template' %}" class="btn btn-outline-secondary btn-lg">Download Template</a>
+
+                </div>
+            </div>
+        </form>
+        <div id="documents-table">
+            {% include "tables/documents-table.html" %}
+        </div>
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--Bootstrap JS-->
+    <script src="{% static 'js/popovers.js' %}"></script>
+{% endblock %}

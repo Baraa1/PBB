@@ -1,0 +1,32 @@
+<form class="stand-filter" method="post" enctype="multipart/form-data" action="" id="month-pie-chart-form">
+  {% csrf_token %}
+  <table class="table table-striped table-bordered table-sm">
+    <tbody>
+      <tr class="form-floating mb-3">
+        <td class="align-middle">
+          <label for="from" class="month form-label">From</label>
+          <input type="date" name="from" class="stop-enter form-control form-control-sm"
+          hx-post="{% url 'filter_stands' %}"
+          hx-trigger="input delay:2s" hx-target="#stands-pie-chart-js" hx-swap="afterend">
+        </td>
+        <td class="align-middle">
+          <label for="to" class="month form-label">To</label>
+          <input type="date" name="to" class="stop-enter form-control form-control-sm"
+          hx-post="{% url 'filter_stands' %}"
+          hx-trigger="input delay:2s" hx-target="#stands-pie-chart-js" hx-swap="afterend">
+        </td>
+        <td class="align-middle">
+          <label for="stand" class="month form-label">Stand</label>
+          <input list="stands" name="stand" id="stand" class="stop-enter form-select form-select-sm"
+          hx-post="{% url 'filter_stands' %}"
+          hx-trigger="input delay:2s" hx-target="#stands-pie-chart-js" hx-swap="afterend">
+          <datalist id="stands">
+            {% for stand in stands %}
+            <option value="{{ stand.id }}">Stand {{ stand.stand_name }}</option>
+            {% endfor %}
+          </datalist>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</form>

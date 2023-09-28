@@ -1,0 +1,82 @@
+<!<!DOCTYPE html>
+{% load static %}
+
+<html>
+    <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>{% block title %}{% endblock %}</title>
+      <meta name="description" content="">
+      <!--Bootstrap is developed mobile first, a strategy in which we optimize code for mobile devices first and then scale up components as necessary using CSS media queries. To ensure proper rendering and touch zooming for all devices, add the responsive viewport meta tag to your-->
+      <link rel="stylesheet" href="{% static 'css/style.css' %}" media="all">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--Bootstrap CSS-->
+      <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}" media="all">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    </head>
+    <body>
+        <div class="dashboard-wrapper">
+            {% block body %}
+                <div class="sidebar text-bg-dark">
+                    {% if user.is_authenticated %}
+                        <ul class="nav flex-column">
+                        {% block sidebar %}
+                            {% include "includes/sidebar.html" %}
+                        {% endblock %}
+                        <hr>
+                        {% block specific_links %}
+                        {% endblock %}
+                        </ul>
+                    {% endif %}
+                </div>
+                {% block toolbar %}
+                    <div class="sidebar-title">
+                        <a href="{% url 'index' %}" class="title-link text-decoration-none">{{ user.first_name }} {{ user.last_name }}</a>
+                    </div>
+                    <div class="toolbar">
+                        <div class="hamburger">
+                            <div class="line1"></div>
+                            <div class="line2"></div>
+                            <div class="line3"></div>
+                        </div>
+                        {% if user.is_authenticated %}
+                            {% block search_field %}
+                            {% endblock %}
+                            <div class="toolbar-btns cpu">
+                                {% block custom_btn %}
+                                {% endblock %}
+                                <div class="dropdown text-end">
+                                    <div class="dropdown">
+                                        <button class="btn btn-danger dropdown-toggle show" type="button" data-bs-toggle="dropdown" aria-expanded="true">
+                                        {{ user.username }}
+                                        </button>
+                                        <ul class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+                                            <li><h6 class="dropdown-header">{{ user.first_name }} {{ user.last_name }}</h6></li>
+                                            <li><a class="dropdown-item" href="{% url 'profile' user.pk %}">View Profile</a></li>
+                                            <li><a href="{% url 'password_change' %}" class="dropdown-item" >Change Password</a></li>
+                                            <li><hr class="dropdown-divider"></li>
+                                            <li><a href="{% url 'logout' %}" class="dropdown-item" >Log Out</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endblock %}
+                <div class="display-content">
+                    {% include "includes/messages.html" %}
+                    {% block display-content %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+        {% block floating_btn %}
+        {% endblock %}
+        <script src="{% static 'js/sidebar.js' %}"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+        <script src="{% static 'js/bootstrap/bootstrap.bundle.js' %}"></script>
+        {% block JS %}{% endblock %}
+    </body>
+</html>

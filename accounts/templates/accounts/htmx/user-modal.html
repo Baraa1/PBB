@@ -1,0 +1,30 @@
+<!-- Modal -->
+<form method="post" action="">
+    {% csrf_token %}
+    <div class="modal fade" id="{{ user.username }}Modal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="ModalLabel">activation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if user.is_active %}
+                        Deactivate {{ user.username }} account
+                    {% else %}
+                        Activate {{ user.username }} account
+                    {% endif %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                        hx-post="{% url 'deactivate_account' user.id %}"
+                        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                        hx-trigger="click"
+                        hx-target=".{{ user.username }}deactivate-user" hx-swap="innerHTML"
+                        >{% if user.is_active %}Deactivate{% else %}Activate{% endif %}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

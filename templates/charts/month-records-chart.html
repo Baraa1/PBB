@@ -1,0 +1,47 @@
+<script>
+    const ctx = document.getElementById('chart1');
+
+    const month_chart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: [{% for week, value in weeks_dict.items %}'{{ week }}',{% endfor %}],
+                datasets: [{
+                    label: 'Records',
+                    data: [{% for week, value in weeks_dict.items %}'{{ value }}',{% endfor %}],
+                    borderWidth: 1
+                }],
+            },
+            options: {
+                aspectRatio: 1.5,
+                // Keeps the chart from overflowing if set to false
+                maintainAspectRatio: true,
+
+                // auto color plugin https://github.com/kurkle/chartjs-plugin-autocolors
+                plugins: {
+                    legend: {
+                        display:true,
+                        position:'left',
+                        labels: {
+                          padding:25,
+                          font: {
+                            size:14,
+                            weight:'bold',
+                          },
+                        },
+                    },
+                    autocolors: {
+                    mode: 'data'
+                    },
+                    datalabels: {
+                        formatter: (value, ctx) => {
+                            const datapoints = ctx.chart.data.datasets[0].data
+                            const total = datapoints.reduce((total, datapoint) => total + parseInt(datapoint), 0);
+                            const percentage = value / total * 100
+                            return `${percentage.toFixed(2)}%`;
+                        },
+                        color: '#000',
+                      }
+                },
+            }
+        });
+</script>

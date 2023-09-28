@@ -1,0 +1,8 @@
+<script>
+    users_chart.data.datasets = [{
+        label: 'Records per User',
+        data: [{% for user, value in users_dict.items %}'{{ value }}',{% endfor %}],
+        borderWidth: 2
+    }];
+    users_chart.update()
+</script>

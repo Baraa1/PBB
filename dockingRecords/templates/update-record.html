@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Update Record {% endblock %}
+
+{% block specific_links %}
+    {% if perms.dockingRecords.view_dockingrecord %}
+        <a href="{% url 'flight_schedule' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+        <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+        <div class="p-0">Flight Schedule</div>
+        </a>
+        <a href="https://www.airportia.com/saudi-arabia/king-fahd-international-airport/" target="_blank" class="sub-link text-decoration-none text-light d-flex align-items-center ms-3 mt-2 p-1 rounded">
+        <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+        <div class="p-0">Airportia.com</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    <div class="form-wrapper">
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'includes/update-record-form.html' %}
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block JS %}
+    <script src="{% static 'js/update-record-form.js' %}"></script>
+    <!--Bootstrap JS-->
+    <script src="{% static 'js/popovers.js' %}"></script>
+    <!--HTMX JS-->
+    <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+{% endblock %}

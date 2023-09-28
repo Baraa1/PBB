@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Stands {% endblock %}
+{% block display-content %}
+    <div class="form-wrapper">
+        <p class="form-title">Update Stand</p>
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'includes/create-stand-form.html' %}
+                <!-- Button here because user form is used in more than one pages with diffrent functions-->
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Update</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger btn-sm">Delete Stand</button>
+                </div>
+            </div>
+        </form>
+        {% include 'htmx/delete-stand-modal.html' %}
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--Bootstrap JS-->
+    <script src="{% static 'js/popovers.js' %}"></script>
+{% endblock %}

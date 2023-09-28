@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Docking Records {% endblock %}
+{% block search_field %}
+    {% include "htmx/records-search-form.html" %}
+{% endblock %}
+{% block custom_btn %}
+<a class="btn btn-success" href="{% url 'flight_schedule' %}">Schedule</a>
+{% comment %}
+    <a class="btn btn-success" href="{% url 'arrival_schedule' %}">A_Schedule</a>
+    <a class="btn btn-light" href="{% url 'departure_schedule' %}">D_Schedule</a>
+{% endcomment %}
+
+{% endblock %}
+{% block specific_links %}
+    {% if perms.dockingRecords.view_dockingrecord %}
+        <a href="{% url 'flight_schedule' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+            <div class="p-0">Flight Schedule</div>
+        </a>
+        <a href="https://www.airportia.com/saudi-arabia/king-fahd-international-airport/" target="_blank" class="sub-link text-decoration-none text-light d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">connecting_airports</span>
+            <div class="p-0">Airportia.com</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    {% include "htmx/docking-records-filter.html" %}
+    <div id="docking-records-table">
+        {% include "tables/docking-records-table.html" %}
+    </div>
+{% endblock %}
+{% block floating_btn %}
+    <div class="floating-btn dropup">
+        <span class="material-symbols-outlined rounded-2 bg-danger text-light fs-1 p-4 position-absolute bottom-0 end-0 show shadow-lg" data-bs-toggle="dropdown" aria-expanded="true" role="button">assignment_add</span>
+        <!--button class="btn btn-danger btn-lg rounded-circle position-absolute bottom-0 end-0 show shadow-lg" type="button" data-bs-toggle="dropdown" aria-expanded="true">+</button-->
+        <ul class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
+            <li><h6 class="dropdown-header">{{ user.first_name }} {{ user.last_name }}</h6></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item btn btn-primary" href="{% url 'create_docking' %}">New Record</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a  class="dropdown-item btn btn-secondary" href="{% url 'create_nodocking' %}">UnDocking <b>(No Docking Record)</b></a></li>
+        </ul>
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--HTMX JS-->
+    <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+{% endblock %}

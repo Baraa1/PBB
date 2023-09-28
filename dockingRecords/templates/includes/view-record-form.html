@@ -1,0 +1,137 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+    <p>General Information</p>
+    <div class="form-floating fr-inp">
+        <input type="text" name="stand" class="bg-light bg-light disabled-input form-control" value="{{ record.stand }}" disabled>
+        <label class="text-primary"  for="stand">Stand</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        <input type="text" name="operator1" class="bg-light disabled-input form-control" value="{{ record.operator1 }}" disabled>
+        <label class="text-primary"  for="operator1">Arrival Operator</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        <input type="text" name="operator2" class="bg-light disabled-input form-control" value="{{ record.operator2 }}" disabled>
+        <label class="text-primary"  for="operator2">Departure Operator</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Flight Information</p>
+
+    <div class="form-floating fr-inp">
+        <input type="text" name="flight_no1" class="bg-light disabled-input form-control" value="{{ record.flight_no1 }}" disabled>
+        <label class="text-primary"  for="flight_no1">Arrival Flight Number</label>
+    </div>
+
+    <div class="form-floating fr-inp">
+        <input type="text" name="flight_no2" class="bg-light disabled-input form-control" value="{{ record.flight_no2 }}" disabled>
+        <label class="text-primary" for="flight_no2">Departue Flight Number</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Aircraft Information</p>
+    <div class="form-floating fr-inp">
+        <input type="text" name="ac_type" class="bg-light disabled-input form-control" value="{{ record.ac_type }}" disabled>
+        <label class="text-primary"  for="ac_type">Aircraft Type</label>
+    </div>
+    
+    <div class="form-floating fr-inp">
+        <input type="text" name="ac_reg" class="bg-light disabled-input form-control" value="{{ record.ac_reg }}" disabled>
+        <label class="text-primary"  for="ac_reg">Aircraft Registration Number</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Docking Date and time</p>
+    
+    <div class="form-floating fr-inp">
+        <input type="text" name="chocks_on" class="bg-light disabled-input form-control" value="{{ record.chocks_on }}" disabled>
+        <label class="text-primary"  for="chocks_on">Chocks On</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="docked" class="bg-light disabled-input form-control" value="{{ record.docked }}" disabled>
+        <label class="text-primary"  for="docked">Docked</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Undocking Date and time</p>
+    <div class="form-floating fr-inp">
+        <input type="text" name="door_close" class="bg-light disabled-input form-control" value="{{ record.door_close }}" disabled>
+        <label class="text-primary"  for="door_close">Door Close</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="undocked" class="bg-light disabled-input form-control" value="{{ record.undocked }}" disabled>
+        <label class="text-primary"  for="undocked">Undocked</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>PBB 2 (Bravo)</p>
+
+    <div class="mb-3 fr-inp">
+        {% if record.b_used %}
+            <select name="b_used" disabled="" id="b_used" class="disabled-input form-control" style="color: white; background-color: green;">
+                <option value="true" selected="">Yes</option>
+            </select>
+        {% else %}
+            <select name="b_used" disabled="" id="b_used" class="disabled-input form-control" style="color: white; background-color: red;">
+                <option value="false" selected="">No</option>
+            </select>
+        {% endif %}
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="b_docked" class="bg-light disabled-input form-control" value="{{ record.b_docked }}" disabled>
+        <label class="text-primary"  for="b_docked">Docking Time</label>
+    </div>
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="b_undocked" class="bg-light disabled-input form-control" value="{{ record.b_undocked }}" disabled>
+        <label class="text-primary"  for="b_undocked">Undocking Time</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>PBB 3 (Charlie)</p>
+
+    <div class="mb-3 fr-inp">
+        {% if record.c_used %}
+            <select name="c_used" disabled="" id="c_used" class="disabled-input form-control" style="color: white; background-color: green;">
+                <option value="true" selected="">Yes</option>
+            </select>
+        {% else %}
+            <select name="c_used" disabled="" id="c_used" class="disabled-input form-control" style="color: white; background-color: red;">
+                <option value="false" selected="">No</option>
+            </select>
+        {% endif %}
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="c_docked" class="bg-light disabled-input form-control" value="{{ record.c_docked }}" disabled>
+        <label class="text-primary"  for="c_docked">Docking Time</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="c_undocked" class="bg-light disabled-input form-control" value="{{ record.c_undocked }}" disabled>
+        <label class="text-primary"  for="c_undocked">Undocking Time</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Optional Fields</p>
+    <div class="form-floating mb-3 fr-inp">
+        <input type="text" name="remarks" class="bg-light disabled-input form-control" value="{{ record.remarks }}" disabled>
+        <label class="text-primary"  for="remarks">Remarks</label>
+    </div>
+</div>
+<hr>
+<div class="fr-btn">
+    <a href="{% url 'update_record' record.id %}"  class="btn btn-secondary btn-lg">Update</a>
+</div>

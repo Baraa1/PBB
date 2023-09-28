@@ -1,0 +1,44 @@
+<script>
+  const ctx3 = document.getElementById('chart3');
+  
+  const users_chart = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      
+      labels: [{% for user, value in users_dict.items %}'{{ user }}',{% endfor %}],
+      datasets: [{
+          label: 'Records per user',
+          data: [{% for user, value in users_dict.items %}'{{ value }}',{% endfor %}],
+          borderWidth: 2
+          }]
+    },
+    options: {
+      aspectRatio: 3,
+      // Keeps the chart from overflowing if set to false
+      maintainAspectRatio: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        },
+      },
+      // auto color plugin https://github.com/kurkle/chartjs-plugin-autocolors
+      plugins: {
+                    
+        autocolors: {
+        mode: 'data'
+        },
+        datalabels: {
+            formatter: (value, ctx) => {
+                const datapoints = ctx.chart.data.datasets[0].data
+                const total = datapoints.reduce((total, datapoint) => total + parseInt(datapoint), 0);
+                const percentage = value / total * 100
+                return `${percentage.toFixed(2)}%`;
+            },
+            color: '#000',
+            textStrokeWidth:0.3,
+            rotation:270,
+          }
+      },
+    }
+  });
+</script>
