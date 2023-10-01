@@ -17,4 +17,13 @@
 {% block JS %}
     <!--Bootstrap JS-->
     <script src="{% static 'js/popovers.js' %}"></script>
+    <script>
+        // Function to reload the page
+        function reloadPage() {
+            location.reload();
+        }
+
+        // Set a timer to refresh the page every 30 minutes (30 minutes * 60 seconds * 1000 milliseconds)
+        setTimeout(reloadPage, 30 * 60 * 1000);
+    </script>
 {% endblock %}

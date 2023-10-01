@@ -64,7 +64,9 @@ def create_account(request):
             #instance.is_superuser = True
             instance.set_password(form.cleaned_data['password'])
             instance.save()
+            new_user = instance
             form.save_m2m()
+            SecondOperator.objects.create(second_operator = new_user)
             messages.info(request, f"{form.cleaned_data['username']} - ID: {form.cleaned_data['user_id']} Account was created successfuly.")
             return redirect('accounts')
     else:
