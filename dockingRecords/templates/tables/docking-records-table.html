@@ -1,5 +1,5 @@
 <div class="table-container">
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover not-desktop">
         <caption>Total: {{ total_records }}</caption>
         <thead class="table-dark">
             <tr>
@@ -8,17 +8,16 @@
                 <th class="align-middle" scope="col">Stand</th>
                 <th class="align-middle" scope="col">Flight Number</th>
                 {% comment %}
-                <th class="align-middle" scope="col">Operator</th>
-                <th class="align-middle" scope="col">Departure</th>
-                <th class="align-middle" scope="col">Aircraft type</th>
-                <th class="align-middle" scope="col">Aircraft Reg</th>
-                <th class="align-middle" scope="col">Docked</th>
-                <th class="align-middle" scope="col">UnDocked</th>
-                <th class="align-middle" scope="col">Chocks On</th>
-                <th class="align-middle" scope="col">Door Close</th>
-                <th class="align-middle" scope="col">Edit</th>
+                <th class="align-middle desktop" scope="col">Operator</th>
+                <th class="align-middle desktop" scope="col">Departure</th>
+                <th class="align-middle desktop" scope="col">Aircraft type</th>
+                <th class="align-middle desktop" scope="col">Aircraft Reg</th>
+                <th class="align-middle desktop" scope="col">Docked</th>
+                <th class="align-middle desktop" scope="col">UnDocked</th>
+                <th class="align-middle desktop" scope="col">Chocks On</th>
+                <th class="align-middle desktop" scope="col">Door Close</th>
+                <th class="align-middle desktop" scope="col">Edit</th>
                 {% endcomment %}
-
             </tr>
         </thead>
         <tbody>
@@ -83,6 +82,70 @@
                 <tr id="{{ record.id }}" class="accordion-collapse collapse" aria-labelledby="{{ records.id }}One" data-bs-parent="#docking-records-table" style="">
                     <th class="align-middle table-warning" scope="col" colspan="2"> </th>
                     <td class="align-middle" colspan="2">
+                        {% if perms.dockingRecords.delete_dockingrecord %}
+                            <a href="{% url 'update_record' record.id %}" class="btn btn-secondary btn">Edit</a>
+                        {% elif request.user == record.operator1 or request.user == record.operator2.second_operator %}
+                            <a href="{% url 'update_record' record.id %}" class="btn btn-secondary btn">Edit</a>
+                        {% endif %}
+                        <a href="{% url 'view_record' record.id %}" class="btn btn-info btn mx-2">View</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <table class="table table-striped table-bordered table-hover desktop">
+        <caption>Total: {{ total_records }}</caption>
+        <thead class="table-dark">
+            <tr>
+                <th class="align-middle" scope="col">Undock</th>
+                <th class="align-middle" scope="col">Operator</th>
+                <th class="align-middle" scope="col">Stand</th>
+                <th class="align-middle" scope="col">Flight Number</th>
+                <th class="align-middle" scope="col">Terminal</th>
+                <th class="align-middle" scope="col">Departure</th>
+                <th class="align-middle" scope="col">Aircraft type</th>
+                <th class="align-middle" scope="col">Aircraft Reg</th>
+                <th class="align-middle" scope="col">Docked</th>
+                <th class="align-middle" scope="col">UnDocked</th>
+                <th class="align-middle" scope="col">Chocks On</th>
+                <th class="align-middle" scope="col">Door Close</th>
+                <th class="align-middle" scope="col">Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in docking_records %}
+                <tr>
+                    <td class="align-middle">
+                        {% if record.undocked or record.no_docking %}
+                            <a href="#" class="disabled-link btn btn-success btn-sm border">Done</a>
+                        {% else %}
+                            <a href="{% url 'create_undocking' record.id %}" class="btn btn-primary btn">Undock</a>
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">
+                        {% if record.no_docking %}
+                            {{ record.operator2 }}
+                        {% else %}
+                            {{ record.operator1 }}
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">{{ record.stand }}</td>
+                    <td class="align-middle">{{ record.flight_no1 }}</td>
+                    <td class="align-middle">{{ record.stand.gate_name.terminal_name }}</td>
+                    <td class="align-middle">{{ record.flight_no2 }}</td>
+                    <td class="align-middle">{{ record.ac_type }}</td>
+                    <td class="align-middle">{{ record.ac_reg }}</td>
+                    <td class="align-middle">{{ record.docked|date:"d-m-y | H:i" }}</td>
+                    <td class="align-middle">
+                        {% if record.no_docking %}
+                        No Docking
+                        {% else %}
+                        {{ record.undocked|date:"d-m-y | H:i" }}
+                        {% endif %}
+                    </td>
+                    <td class="align-middle">{{ record.chocks_on|date:"H:i" }}</td>
+                    <td class="align-middle">{{ record.door_close|date:"H:i" }}</td>
+                    <td class="align-middle">
                         {% if perms.dockingRecords.delete_dockingrecord %}
                             <a href="{% url 'update_record' record.id %}" class="btn btn-secondary btn">Edit</a>
                         {% elif request.user == record.operator1 or request.user == record.operator2.second_operator %}
