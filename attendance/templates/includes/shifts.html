@@ -1,0 +1,11 @@
+<section class="flex-fill">
+    <div class="d-flex my-1 gap-1 justify-content-end">
+        {% for shift in shifts %}
+            <div draggable="true" class="draggable-element fs-5 p-1 text-center align-middle text-{{ shift.color }} flex-fill" style="height:4.5vh;max-width:7.5vw;">
+                <h4 class="fs-5">{{ shift.name }}</h4>
+                <span class="hidden">{{ shift.id }}</span>
+                <!--p>{{ shift.from_time|time:"H:i" }} &gt;&gt;&gt; {{ shift.to_time|time:"H:i" }}</p-->
+            </div>
+        {% endfor %}
+    </div>
+</section>

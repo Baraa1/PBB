@@ -1,0 +1,64 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<div class="form-row">
+    <p>General Information</p>
+    <div class="form-floating fr-inp">
+        {% if form.name.errors %}
+            {% render_field form.name class="form-control form-control-sm is-invalid" %}
+            {% for error in form.name.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.name id="name" class="form-control form-control-sm" %}
+        {% endif %}
+        <label for="name">Name</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>time</p>
+    
+    <div class="form-floating fr-inp">
+        {% if form.from_time.errors %}
+            {% render_field form.from_time name="from_time" class="form-control form-control-sm is-invalid" id="from_time" %}
+            {% for error in form.from_time.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.from_time name="from_time" class="form-control form-control-sm" id="from_time" %}
+        {% endif %}
+        <label for="from_time">Starting Time</label>
+    </div>
+
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.to_time.errors %}
+            {% render_field form.to_time name="to_time" class="form-control form-control-sm is-invalid" id="to_time" %}
+            {% for error in form.to_time.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.to_time name="to_time" class="form-control form-control-sm" id="to_time" %}
+        {% endif %}
+        <label for="to_time">Ending Time</label>
+    </div>
+</div>
+<hr>
+<div class="form-row">
+    <p>Display Color</p>
+    <div class="form-floating mb-3 fr-inp">
+        {% if form.color.errors %}
+            {% render_field form.color name="color" class="form-control form-control-sm is-invalid" id="color" %}
+            {% for error in form.color.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.color name="color" class="form-control form-control-sm" id="color" %}
+        {% endif %}
+        <label for="color">Color</label>
+    </div>
+</div>
+<hr>
+<div class="fr-btn">
+    <button type="submit" class="btn btn-success btn-lg">Add Shift</button>
+</div>

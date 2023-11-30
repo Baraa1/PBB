@@ -958,3 +958,125 @@ hr,
 
 /************************************* END OF ACCOUNTS PAGES *************************************/
 /************************************* Flight Schedules ******************************************/
+
+.attendance-filters {
+    min-width: 100%; 
+    padding: 5px 10px;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    line-height: 1.6;
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
+    transition: 0.3s;
+    -webkit-box-shadow: 0px 3px 22px -15px rgba(0, 0, 0, 0.63);
+    -moz-box-shadow: 0px 3px 22px -15px rgba(0, 0, 0, 0.63);
+    box-shadow: 0px 3px 22px -15px rgba(0, 0, 0, 0.63);
+  }
+    @media (max-width: 991.98px) {
+      .attendance-filters {
+        min-width: 100%; } }
+.header { 
+  position: sticky; 
+  top:0; 
+}
+
+/* width */
+#roster-table::-webkit-scrollbar {
+  width: 20px;
+}
+
+/* Track 
+#roster-t::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+} */
+  
+/* Handle */
+#roster-table::-webkit-scrollbar-thumb {
+  background: red; 
+}
+
+/* Handle on hover */
+#roster-table::-webkit-scrollbar-thumb:hover {
+  background: #b30000; 
+}
+/*
+#roster-table td:hover {
+  background-color: rgba(0, 0, 0, 0.23);
+  color: rgba(0, 0, 0, 0.83);
+  font-weight: bold;
+  font-size: 1.25rem;
+}*/
+
+.icons{
+  display: flex;
+  justify-content: center;
+}
+
+.icons a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  color: #000;
+  text-align: center;
+  line-height: 38px;
+  border-radius: 50%;
+  border: solid RGBA(255, 193, 7, var(--bs-bg-opacity, 1)) 2px;
+}
+
+.icons a:last-child{
+  margin-right: -10px;
+}
+
+.icons a:hover{
+  background-color:RGBA(255, 193, 7, var(--bs-bg-opacity, 1)) !important;
+  color: black;
+}
+
+.current-date,
+.selected-date {
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.del-btn {
+  transition: all 600ms;
+}
+.del-btn:hover {
+  color:white;
+  cursor: pointer;
+}
+
+.bg-danger-l {
+  background-color: var(--bs-danger-bg-subtle);
+  color: var(--bs-danger-text-emphasis);
+  border: var(--bs-danger-border-subtle) 0.25rem solid;
+}
+.bg-success-l {
+  background-color: var(--bs-success-bg-subtle);
+  color: var(--bs-success-text-emphasis);
+  border: var(--bs-success-border-subtle) 0.25rem solid;
+}
+.bg-warning-l {
+  background-color: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis);
+  border: var(--bs-warning-border-subtle) 0.25rem solid;
+}
+.text-bg-danger-l {
+  background-color: var(--bs-danger-bg-subtle);
+  color: var(--bs-danger-text-emphasis);
+  border: var(--bs-danger-border-subtle) 0.25rem solid;
+}
+.text-bg-success-l {
+  background-color: var(--bs-success-bg-subtle);
+  color: var(--bs-success-text-emphasis);
+  border: var(--bs-success-border-subtle) 0.25rem solid;
+}
+.text-bg-warning-l {
+  background-color: var(--bs-warning-bg-subtle);
+  color: var(--bs-warning-text-emphasis);
+  border: var(--bs-warning-border-subtle) 0.25rem solid;
+}

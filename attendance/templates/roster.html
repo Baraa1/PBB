@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/mscss/style.css' %}" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block title %} Roster {% endblock %}
+{% block search_field %}
+    {% include "includes/table-header.html" %}
+{% endblock %}
+{% block custom_btn %}
+    <a class="btn btn-success" href="{% url 'create_shift' %}">Add Shift</a>
+{% endblock %}
+{% block display-content %}
+
+    <div class="" >
+        <span class="hidden month">{{ selected_month }}</span>
+        <span class="hidden year">{{ selected_year }}</span>
+        <table class="table table-secondary table-bordered">
+            <caption class="">Roster</caption>
+            <thead class="table-dark" style="position: sticky;top: 0;" >
+                <tr class="days">
+                    {% include "htmx/filters-embed.html" %}
+                    <!--th class="header" scope="col">Name</th>
+                    <th class="header" scope="col">Role</th-->
+                    {% for day in dates %}
+                        <th class="header text-center" scope="col">{{ day|date:"D - d" }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <script>let calls_dict = {};</script>
+            {% include "tables/roster-table.html" %}
+            <tfoot>
+                {% for shift in shifts %}
+                    <tr class="{{ shift.color }}">
+                        <td class="{{ shift.color }}">{{ shift.name }}</td>
+                        <td class="{{ shift.color }}">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
+                        {% for day in dates %}
+                            <td class="align-middle {{ shift.color }}" style="min-width:7.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
+                            {% include "includes/records.html" %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tfoot>
+        </table>
+    </div>
+{% endblock %}
+{% block JS %}
+    <script src="{% static 'js/sjs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/sjs/popper.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="{% static 'js/sjs/main.js' %}"></script>
+    <script src="{% static 'js/calendar.js' %}"></script>
+    <!--HTMX JS-->
+    <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
+{% endblock %}

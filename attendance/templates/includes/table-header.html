@@ -1,0 +1,23 @@
+<div class="d-flex pl-5 ml-5 mt-3 gap-2 flex-fill">
+    <section class="d-flex">
+        <span class="current-date text-light"></span>
+        <span class="fs-4 text-light">&nbsp;Roster</span>
+        {% if selected_month > 1 and selected_month < 12 %}
+            <div class="icons mx-3">
+                <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
+                <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
+            </div>
+        {% elif selected_month == 1 %}
+            <div class="icons mx-3">
+                <a href="{% url 'roster' %}?selected_month=11&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-4" >&lt;</a>
+                <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
+            </div>
+        {% elif selected_month == 12%}
+            <div class="icons mx-3">
+                <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
+                <a href="{% url 'roster' %}?selected_month=0&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-4" >&gt;</a>
+            </div>
+        {% endif %}
+    </section>
+    {% include "includes/shifts.html" %}
+</div>

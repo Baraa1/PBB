@@ -1,4 +1,3 @@
-from dataclasses import field
 import django_filters
 
 from accounts.models import CustomUser
@@ -6,7 +5,8 @@ from django.contrib.auth.models import Group
 from locations.models import Terminal
 
 class UserFilter(django_filters.FilterSet):
-    groups     = django_filters.ModelChoiceFilter(field_name='groups', queryset=Group.objects.all())
+    first_name = django_filters.CharFilter(field_name='first_name', lookup_expr='icontains')
+    groups     = django_filters.ModelMultipleChoiceFilter(field_name='groups', queryset=Group.objects.all())
     location   = django_filters.ModelChoiceFilter(field_name='location', queryset=Terminal.objects.all())
 
     class Meta:

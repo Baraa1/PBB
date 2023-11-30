@@ -29,6 +29,7 @@ urlpatterns = [
     path('locations/', include('locations.urls')),
     path('dockingRecords/', include('dockingRecords.urls')),
     path('documents/', include('documents.urls')),
+    path('attendance/', include('attendance.urls')),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,22 @@
+{% load static %}
+    <tbody id="roster-table">
+        {% for employee in employees %}
+            <tr class="days1 position-relative">
+                <th class="fs-5 text-bg-warning align-middle text-center text-truncate position-sticky start-0 z-1" style="max-width:20vw;"><strong>{{ employee.first_name }}</strong></th>
+                <td class="fs-6 text-truncate" style="max-width:6.5vw;">
+                    {% for role in employee.groups.all %}
+                        {{ role }} -
+                    {% endfor %}
+                </td>
+                {% for day in dates %}
+                    <td class="drop-target align-middle p-0 m-0 h-100 {% if record %}{{record.shift.color}}{% endif %}" style="min-width:7.5vw;" id="e{{ employee.id }}-{{ day|date:"d" }}" hx-get="{% url 'get_assignment' %}?shift_date={{ day|date:"Y-m-d" }}&employee_id={{ employee.id }}" hx-trigger="intersect once"
+                    hx-target="#e{{ employee.id }}-{{ day|date:"d" }}" hx-swap="innerHTML">
+                        {% include "includes/attendance-record.html" %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% if htmx %}
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endif %}
