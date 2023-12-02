@@ -151,8 +151,8 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('index')
 
-    form = LoginForm(request.POST or None)
     if request.POST and form.is_valid():
+        form = LoginForm(request.POST)
         user = form.login(request)
         if user is not None:
             auth_login(request, user)
@@ -163,6 +163,7 @@ def login(request):
 
             return redirect('index')
     
+    form = LoginForm(None)
     context = {
         "form":form,
         }
