@@ -151,17 +151,18 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('index')
 
-    if request.POST and form.is_valid():
+    if request.POST:
         form = LoginForm(request.POST)
-        user = form.login(request)
-        if user is not None:
-            auth_login(request, user)
-            # send operators to records page
-            if request.user.groups.filter(name='Operator').exists() or request.user.groups.filter(name='Operation Supervisor').exists():
-                # Redirect to a success page.
-                return redirect('dockings')
+        if form.is_valid():
+            user = form.login(request)
+            if user is not None:
+                auth_login(request, user)
+                # send operators to records page
+                if request.user.groups.filter(name='Operator').exists() or request.user.groups.filter(name='Operation Supervisor').exists():
+                    # Redirect to a success page.
+                    return redirect('dockings')
 
-            return redirect('index')
+                return redirect('index')
     
     form = LoginForm(None)
     context = {
