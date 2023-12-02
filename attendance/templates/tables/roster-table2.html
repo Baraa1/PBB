@@ -1,0 +1,23 @@
+{% load static %}
+{% load new_filters %}
+    <tbody id="roster-table">
+        <tr class="htmx-indicator indicator table-danger">
+            {% for day in dates %}
+                <td style="min-width:7.5vw;">&nbsp;</td>
+            {% endfor %}
+        </tr>
+        {% for employee in filtered_records %}
+            <tr class="days1 position-relative">
+                <th class="fs-5 text-bg-secondary align-middle text-center text-truncate position-sticky start-0 z-1" style="max-width:20vw;"><strong>{{ employee.1 }}</strong></th>
+                <td class="fs-6 text-bg-secondary text-truncate">{{ employee.2 }}</td>
+                {% for day in employee|start_from:3 %}
+                    <td class="drop-target align-middle p-0 m-0 h-100" style="min-width:7.5vw;" id="e{{ employee.0 }}-{% if day.date %}{{ day.date|date:"d" }}{% else %}{{ day|date:"d" }}{% endif %}">
+                        {% include "includes/attendance-record2.html" %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+{% if htmx %}
+    <script src="{% static 'js/calendar.js' %}"></script>
+{% endif %}

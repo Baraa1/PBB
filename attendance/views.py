@@ -55,7 +55,6 @@ def roster(request):
     selected_month = request.GET.get("selected_month")
     selected_year  = request.GET.get("selected_year")
     form           = CreateAttendanceRecordForm()
-
     if selected_month == None or selected_year == None:
         selected_year = datetime.now().year
         selected_month = datetime.now().month
@@ -63,6 +62,7 @@ def roster(request):
         selected_year = int(selected_year)
         selected_month = int(selected_month)
     dates          = get_month_dates(selected_year, selected_month)
+    filtered_books = AttendanceRecord.objects.filter(Q(employee__in=employees) & Q(date__month=selected_month) & Q(date__year = selected_year))
 
     context = {
         "account_filter":account_filter,
@@ -84,7 +84,27 @@ def roster(request):
         #context["shift_filter"]   = shift_filter
         context["shifts"]         = shift_filter.qs
         context["htmx"]           = True
-        return render(request,"tables/roster-table.html", context)
+        month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__month=selected_month) & Q(date__year = selected_year))
+
+        filtered_records = []
+        for employee in account_filter.qs:
+            temp_list = []
+            temp_list.append(employee.id)
+            temp_list.append(f'{employee.first_name} {employee.last_name}')
+            roles = ''
+            for role in employee.groups.all():
+                roles += f'{role} '
+            temp_list.append(roles)
+
+            for day in dates:
+                try:
+                    temp_list.append(month_records.get(employee = employee, date = day))
+                except AttendanceRecord.DoesNotExist:
+                    temp_list.append(day)
+            filtered_records.append(temp_list)
+        context["filtered_records"] = filtered_records
+
+        return render(request,"tables/roster-table2.html", context)
     
     return render(request,"roster.html", context)
 

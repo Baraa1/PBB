@@ -1050,33 +1050,42 @@ hr,
   cursor: pointer;
 }
 
-.bg-danger-l {
-  background-color: var(--bs-danger-bg-subtle);
+.bg-danger-l, .text-bg-danger-l {
+  background-color: var(--bs-danger-bg-subtle) !important;
   color: var(--bs-danger-text-emphasis);
   border: var(--bs-danger-border-subtle) 0.25rem solid;
 }
-.bg-success-l {
-  background-color: var(--bs-success-bg-subtle);
+.bg-success-l, .text-bg-success-l {
+  background-color: var(--bs-success-bg-subtle) !important;
   color: var(--bs-success-text-emphasis);
   border: var(--bs-success-border-subtle) 0.25rem solid;
 }
-.bg-warning-l {
-  background-color: var(--bs-warning-bg-subtle);
-  color: var(--bs-warning-text-emphasis);
-  border: var(--bs-warning-border-subtle) 0.25rem solid;
-}
-.text-bg-danger-l {
-  background-color: var(--bs-danger-bg-subtle);
-  color: var(--bs-danger-text-emphasis);
-  border: var(--bs-danger-border-subtle) 0.25rem solid;
-}
-.text-bg-success-l {
-  background-color: var(--bs-success-bg-subtle);
-  color: var(--bs-success-text-emphasis);
-  border: var(--bs-success-border-subtle) 0.25rem solid;
-}
+.bg-warning-l,
 .text-bg-warning-l {
-  background-color: var(--bs-warning-bg-subtle);
+  background-color: var(--bs-warning-bg-subtle) !important;
   color: var(--bs-warning-text-emphasis);
   border: var(--bs-warning-border-subtle) 0.25rem solid;
+}
+
+.htmx-indicator{
+  display:none;
+}
+.htmx-request .htmx-indicator{
+  display:inline;
+  animation: slide-in-right 0.5s ease-in-out forwards;
+}
+.htmx-request.htmx-indicator{
+  display:inline;
+  animation: slide-in-right 0.5s ease-in-out forwards;
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }

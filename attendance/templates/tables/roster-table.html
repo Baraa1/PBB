@@ -9,7 +9,7 @@
                     {% endfor %}
                 </td>
                 {% for day in dates %}
-                    <td class="drop-target align-middle p-0 m-0 h-100 {% if record %}{{record.shift.color}}{% endif %}" style="min-width:7.5vw;" id="e{{ employee.id }}-{{ day|date:"d" }}" hx-get="{% url 'get_assignment' %}?shift_date={{ day|date:"Y-m-d" }}&employee_id={{ employee.id }}" hx-trigger="intersect once"
+                    <td class="drop-target align-middle p-0 m-0 h-100 {% if record %}{{record.shift.color}}{% endif %}" style="min-width:7.5vw;" id="e{{ employee.id }}-{{ day|date:"d" }}" hx-gt="{% url 'get_assignment' %}?shift_date={{ day|date:"Y-m-d" }}&employee_id={{ employee.id }}" hx-trigger="intersect once"
                     hx-target="#e{{ employee.id }}-{{ day|date:"d" }}" hx-swap="innerHTML">
                         {% include "includes/attendance-record.html" %}
                     </td>

@@ -19,3 +19,15 @@ def unix_to_datetime(diction, key):
             return datetime.datetime.fromtimestamp(int(diction[key]))
         except:
             return 'N/A'
+        
+
+@register.filter(name='start_from')
+def start_from(value, arg):
+    """
+    Returns a sliced list, starting from the given index.
+    """
+    try:
+        index = int(arg)
+        return value[index:]
+    except (ValueError, IndexError):
+        return value

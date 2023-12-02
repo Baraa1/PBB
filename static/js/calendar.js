@@ -49,7 +49,7 @@ function dragdrop(){
 }
 dragdrop();
 function read_cells(values){
-    const table_rows = document.querySelectorAll(`tbody tr`);
+    const table_rows = document.querySelectorAll(`tbody .days1`);
     const col_np     = parseInt(values['shift_date']) + 2;
     let counter      = document.querySelector(`#s${values['shift_id']}-${values['shift_date']} h6`);
     counter.textContent = 0
@@ -66,4 +66,4 @@ function recalc(){
     }
 }
 recalc()
-setInterval(recalc, 1000); // 60000 milliseconds is equal to 1 minute
+setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute
