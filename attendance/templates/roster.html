@@ -31,7 +31,7 @@
             </thead>
             <script>let calls_dict = {};</script>
             {% include "tables/roster-table2.html" %}
-            <tfoot class="position-fixed bottom-0 z-1">
+            <tfoot class="position-sticky bottom-0 z-1">
                 {% for shift in shifts %}
                     <tr class="" >
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.name }}</td>

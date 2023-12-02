@@ -5,6 +5,9 @@
         {% if del %}
             {% render_field form.employee value=employee_id %}
             {% render_field form.date value=shift_date %}
+        {% elif day.shift %}
+            {% render_field form.employee value=employee.0 %}
+            {% render_field form.date value=day.date %}
         {% else %}
             {% render_field form.employee value=employee.0 %}
             {% render_field form.date value=day %}
@@ -18,7 +21,7 @@
             hx-post="{% url 'assign_shift' %}"
             hx-target="#e{{ employee_id }}-{{ shift_date|date:"d" }}"
         {% elif day.shift %}
-            hx-post="{% url 'update_assignment' employee.0 %}"
+            hx-post="{% url 'update_assignment' day.id %}"
             hx-target="#e{{ employee.0 }}-{{ day.date|date:"d" }}"
         {% else %}
             hx-post="{% url 'assign_shift' %}"

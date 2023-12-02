@@ -98,6 +98,7 @@ def roster(request):
 
             for day in dates:
                 try:
+                    print(employee, day)
                     temp_list.append(month_records.get(employee = employee, date = day))
                 except AttendanceRecord.DoesNotExist:
                     temp_list.append(day)
@@ -112,13 +113,12 @@ def roster(request):
 def assign_shift(request):
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST)
-        print(form)
-        print(form.is_valid())
+
         if form.is_valid():
             form.save()
             record = form.instance
             context = {"record":record,"form":form}
-            return render(request,"includes/attendance-record.html", context)
+            return render(request,"includes/attendance-record2.html", context)
             #return HttpResponse(status=204)
 
     return HttpResponse(status=500)
@@ -126,8 +126,6 @@ def assign_shift(request):
 @login_required(login_url='login')
 def update_assignment(request, pk):
     assignment = get_object_or_404(AttendanceRecord, id = pk)
-    employee_id = assignment.employee.id
-    shift_date  = assignment.date
 
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST, instance = assignment)
@@ -139,7 +137,7 @@ def update_assignment(request, pk):
                 "record":record,
                 "form":form,
                 }
-            return render(request,"includes/attendance-record.html", context)
+            return render(request,"includes/attendance-record2.html", context)
     else:
         return HttpResponse(status=500)
 
