@@ -65,5 +65,9 @@ function recalc(){
         read_cells(calls_dict[element]);
     }
 }
-recalc()
-setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute
+window.addEventListener('change', () => {
+    console.log('window')
+    recalc();
+})
+//recalc()
+//setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute

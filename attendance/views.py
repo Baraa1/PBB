@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.models import CustomUser
 from .models import Shift, AttendanceRecord
 from .filters import *
@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from datetime import datetime
 import calendar
 from django.db.models import Q
+from accounts.decorators import add_accounts
 
 #, timezone='Asia/Riyadh'
 def get_month_dates(year, month):
@@ -44,6 +45,7 @@ def get_week_dates(year, month):
     return days
 
 @login_required(login_url='login')
+@user_passes_test(add_accounts)
 def roster(request):
     # Filters
     account_filter = UserFilter(request.GET, CustomUser.objects.filter(is_superuser = False, is_active = True, location = request.user.location).distinct().order_by('groups'))
@@ -98,7 +100,6 @@ def roster(request):
 
             for day in dates:
                 try:
-                    print(employee, day)
                     temp_list.append(month_records.get(employee = employee, date = day))
                 except AttendanceRecord.DoesNotExist:
                     temp_list.append(day)
@@ -110,6 +111,7 @@ def roster(request):
     return render(request,"roster.html", context)
 
 @login_required(login_url='login')
+@user_passes_test(add_accounts)
 def assign_shift(request):
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST)
@@ -124,6 +126,7 @@ def assign_shift(request):
     return HttpResponse(status=500)
 
 @login_required(login_url='login')
+@user_passes_test(add_accounts)
 def update_assignment(request, pk):
     assignment = get_object_or_404(AttendanceRecord, id = pk)
 
