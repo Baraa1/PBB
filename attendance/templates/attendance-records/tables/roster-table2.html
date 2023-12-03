@@ -14,7 +14,7 @@
                 <td class="fs-6 text-bg-secondary text-truncate">{{ employee.2 }}</td>
                 {% for day in employee|start_from:3 %}
                     <td class="drop-target align-middle p-0 m-0 h-100" style="min-width:7.5vw;" id="e{{ employee.0 }}-{% if day.date %}{{ day.date|date:"d" }}{% else %}{{ day|date:"d" }}{% endif %}">
-                        {% include "includes/attendance-record2.html" %}
+                        {% include "attendance-records/includes/attendance-record.html" %}
                     </td>
                 {% endfor %}
             </tr>

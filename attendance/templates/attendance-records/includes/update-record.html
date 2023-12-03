@@ -1,0 +1,24 @@
+{% load widget_tweaks %}
+<div class="{{record.shift.color}} align-middle m-2 p-2">
+    <form method="post" class="hidden"  enctype="multipart/form-data" action="" novalidate>
+        {% csrf_token %}
+        {% render_field form.employee value=employee.0 %}
+        {% render_field form.date value=day %}
+        {% render_field form.shift value="" %}
+        <button type="button" class="filter"
+            hx-post="{% url 'update_attendance_record' record.id %}"
+            hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
+            hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+            hx-trigger="click" hx-swap="innerHTML">Submit
+        </button>
+    </form>
+    <h6 class="text-center d-flex justify-content-between align-items-center">
+        <span class="targ">{{ record.shift.name }}</span>
+        <span class="material-symbols-outlined del-btn"
+        hx-post="{% url 'delete_attendance_record' record.id %}"
+        hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
+        hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+        hx-trigger="click" hx-swap="innerHTML">delete</span>
+    </h6>
+    
+</div>

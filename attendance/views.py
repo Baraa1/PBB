@@ -91,7 +91,7 @@ def roster(request):
         "form":form,
     }
     
-    return render(request,"roster.html", context)
+    return render(request,"attendance-records/roster.html", context)
 
 @login_required(login_url='login')
 @permission_required(['attendance.view_attendancerecord','attendance.add_attendancerecord','attendance.change_attendancerecord','attendance.delete_attendancerecord',], raise_exception=True)
@@ -100,6 +100,7 @@ def filter_roster_by_accounts(request):
     selected_month = int(request.GET.get("selected_month"))
     selected_year  = int(request.GET.get("selected_year"))
     dates          = get_month_dates(selected_year, selected_month)
+    form           = CreateAttendanceRecordForm()
 
     if request.method == "POST":
         account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True).distinct().order_by('groups'))
@@ -109,14 +110,15 @@ def filter_roster_by_accounts(request):
         filtered_records = filter_records_by_month(month_records, dates, account_filter.qs)
         context = {
             "filtered_records": filtered_records,
+            "form": form,
             "htmx": True,
         }
-        return render(request,"tables/roster-table2.html", context)
+        return render(request,"attendance-records/tables/roster-table2.html", context)
     return HttpResponse(status=500)
 
 @login_required(login_url='login')
 @permission_required('attendance.add_attendancerecord', raise_exception=True)
-def assign_shift(request):
+def create_attendance_record(request):
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST)
 
@@ -124,14 +126,26 @@ def assign_shift(request):
             form.save()
             record = form.instance
             context = {"record":record,"form":form}
-            return render(request,"includes/attendance-record2.html", context)
-            #return HttpResponse(status=204)
+            return render(request,"attendance-records/includes/update-record.html", context)
 
     return HttpResponse(status=500)
 
+# Unused right now
+@login_required(login_url='login')
+@permission_required('attendance.view_attendancerecord', raise_exception=True)
+def get_attendance_record(request):
+    employee_id = request.GET.get("employee_id")
+    shift_date  = request.GET.get("shift_date")
+    assignment  = get_object_or_404(AttendanceRecord, employee_id = employee_id, date=shift_date)
+    form        = CreateAttendanceRecordForm(instance = assignment)
+
+    context = {"record":assignment,"form":form}
+    return render(request,"attendance-records/includes/attendance-record.html", context)
+
+
 @login_required(login_url='login')
 @permission_required('attendance.change_attendancerecord', raise_exception=True)
-def update_assignment(request, pk):
+def update_attendance_record(request, pk):
     assignment = get_object_or_404(AttendanceRecord, id = pk)
 
     if request.method == 'POST':
@@ -144,24 +158,13 @@ def update_assignment(request, pk):
                 "record":record,
                 "form":form,
                 }
-            return render(request,"includes/attendance-record2.html", context)
+            return render(request,"attendance-records/includes/update-record.html", context)
     else:
         return HttpResponse(status=500)
 
 @login_required(login_url='login')
-@permission_required('attendance.view_attendancerecord', raise_exception=True)
-def get_assignment(request):
-    employee_id = request.GET.get("employee_id")
-    shift_date  = request.GET.get("shift_date")
-    assignment  = get_object_or_404(AttendanceRecord, employee_id = employee_id, date=shift_date)
-    form        = CreateAttendanceRecordForm(instance = assignment)
-
-    context = {"record":assignment,"form":form}
-    return render(request,"includes/attendance-record.html", context)
-
-@login_required(login_url='login')
 @permission_required('attendance.delete_attendancerecord', raise_exception=True)
-def delete_assignment(request, pk):
+def delete_attendance_record(request, pk):
     record = get_object_or_404(AttendanceRecord, id = pk)
     employee_id = record.employee.id
     shift_date  = record.date#'{:02d}'.format(record.date.day)
@@ -171,9 +174,8 @@ def delete_assignment(request, pk):
         "form":form,
         "employee_id":employee_id,
         "shift_date":shift_date,
-        "del":True,
         }
-    return render(request,"includes/attendance-record.html",context)
+    return render(request,"attendance-records/includes/deleted-record.html",context)
 
 @login_required(login_url='login')
 @permission_required('attendance.view_attendancerecord', raise_exception=True)
@@ -186,11 +188,11 @@ def get_records(request):
         "shift_date":shift_date,
         "shift_id":shift_id,
     }
-    return render(request,"includes/records.html", context)
+    return render(request,"attendance-records/includes/records.html", context)
 
 @login_required(login_url='login')
 @permission_required('attendance.view_attendancerecord', raise_exception=True)
-def my_roster(request, pk):
+def account_roster(request, pk):
     selected_month = request.GET.get("selected_month")
     selected_year  = request.GET.get("selected_year")
     if selected_month == None or selected_year == None:
@@ -209,7 +211,6 @@ def my_roster(request, pk):
         Q(Q(date__month=selected_month) | Q(date__month=prev_month)) &
         Q(Q(date__year = prev_year) | Q(date__year = prev_year)))
     
-    shifts = Shift.objects.all()
     roster_list = []
     for day in dates:
         att_dict = (day,'inactive')
@@ -219,13 +220,14 @@ def my_roster(request, pk):
                 break
         roster_list.append(att_dict)
 
+    shifts = Shift.objects.all()
     context = {
         "roster_list":roster_list,
         "shifts":shifts,
         "selected_year":selected_year,
         "selected_month":selected_month,
     }
-    return render(request,"my-roster.html", context)
+    return render(request,"attendance-records/my-roster.html", context)
 
 @login_required(login_url='login')
 @permission_required(['attendance.view_attendancerecord', 'attendance.add_shift'], raise_exception=True)
@@ -242,4 +244,4 @@ def create_shift(request):
         "form":form,
         }
 
-    return render(request,"create-shift.html",context)
+    return render(request,"shifts/create-shift.html",context)

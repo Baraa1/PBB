@@ -8,7 +8,7 @@
 {% endblock %}
 {% block title %} Roster {% endblock %}
 {% block search_field %}
-    {% include "includes/table-header.html" %}
+    {% include "attendance-records/includes/table-header.html" %}
 {% endblock %}
 {% block custom_btn %}
     <a class="btn btn-success" href="{% url 'create_shift' %}">Add Shift</a>
@@ -21,7 +21,7 @@
             <caption class="">Roster</caption>
             <thead class="position-sticky top-0 z-1">
                 <tr class="days">
-                    {% include "htmx/filters-embed.html" %}
+                    {% include "attendance-records/htmx/filters-embed.html" %}
                     <!--th class="header" scope="col">Name</th>
                     <th class="header" scope="col">Role</th-->
                     {% for day in dates %}
@@ -30,7 +30,7 @@
                 </tr>
             </thead>
             <script>let calls_dict = {};</script>
-            {% include "tables/roster-table2.html" %}
+            {% include "attendance-records/tables/roster-table2.html" %}
             <tfoot class="position-sticky bottom-0 z-1">
                 {% for shift in shifts %}
                     <tr class="" >
@@ -38,7 +38,7 @@
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
                         {% for day in dates %}
                             <td class="align-middle text-{{ shift.color }} p-1" style="min-width:7.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
-                            {% include "includes/records.html" %}
+                            {% include "attendance-records/includes/records.html" %}
                             </td>
                         {% endfor %}
                     </tr>

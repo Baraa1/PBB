@@ -55,7 +55,7 @@
                                         <ul class="dropdown-menu" data-popper-placement="bottom-start" style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(0px, 40px);">
                                             <li><h6 class="dropdown-header">{{ user.first_name }} {{ user.last_name }}</h6></li>
                                             <li><a class="dropdown-item" href="{% url 'profile' user.pk %}">View Profile</a></li>
-                                            <li><a class="dropdown-item" href="{% url 'my_roster' user.pk %}">View Roster</a></li>
+                                            <li><a class="dropdown-item" href="{% url 'account_roster' user.pk %}">View Roster</a></li>
                                             <li><a href="{% url 'password_change' %}" class="dropdown-item" >Change Password</a></li>
                                             <li><hr class="dropdown-divider"></li>
                                             <li><a href="{% url 'logout' %}" class="dropdown-item" >Log Out</a></li>

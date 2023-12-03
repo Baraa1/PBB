@@ -17,18 +17,18 @@
           <p class="current-date"></p>
           {% if selected_month > 1 and selected_month < 12 %}
               <div class="icons mx-3">
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
               </div>
           {% elif selected_month == 1 %}
               <div class="icons mx-3">
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month=12&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-4" >&lt;</a>
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month=12&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-4" >&lt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-4" >&gt;</a>
               </div>
           {% elif selected_month == 12%}
               <div class="icons mx-3">
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
-                  <a href="{% url 'my_roster' request.user.id %}?selected_month=1&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-4" >&gt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-4" >&lt;</a>
+                  <a href="{% url 'account_roster' request.user.id %}?selected_month=1&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-4" >&gt;</a>
               </div>
           {% endif %}
         </header>
