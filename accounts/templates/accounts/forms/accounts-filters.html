@@ -7,6 +7,11 @@
         <tbody>
             <tr class="form-floating mb-3">
                 <td class="mb-3 fr-inp">
+                    <label for="first_name" class="form-label">Name</label>
+                    {% render_field accounts_filter.form.first_name  class="stop-enter form-select form-select-sm" %}
+                </td>
+
+                <td class="mb-3 fr-inp">
                     <label for="location" class="form-label">Terminal</label>
                     {% render_field accounts_filter.form.location  class="stop-enter form-select form-select-sm" %}
                 </td>

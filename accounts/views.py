@@ -40,12 +40,12 @@ def accounts(request):
         account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False).distinct().order_by('groups'))
         context     = {"accounts": account_filter.qs}
 
-        return render(request,'accounts/tables/users-table.html', context)
+        return render(request,'accounts/tables/accounts-table.html', context)
 
     # else return all users data
     context = {
         "accounts":account_filter.qs,
-        "account_filter": account_filter,
+        "accounts_filter": account_filter,
         }
 
     return render(request,"accounts/accounts.html",context)
