@@ -9,7 +9,7 @@
         {% for employee in filtered_records %}
             <tr class="days1 position-relative">
                 <th class="fs-5 text-bg-secondary align-middle text-center text-truncate position-sticky start-0 z-1" style="max-width:20vw;">
-                    <a class="text-light" href="{% url 'my_roster' employee.0 %}"><strong>{{ employee.1 }}</strong></a>
+                    <a class="text-light" href="{% url 'account_roster' employee.0 %}"><strong>{{ employee.1 }}</strong></a>
                 </th>
                 <td class="fs-6 text-bg-secondary text-truncate">{{ employee.2 }}</td>
                 {% for day in employee|start_from:3 %}
