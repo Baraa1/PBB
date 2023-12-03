@@ -1,9 +1,15 @@
 # Django
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
 from django.db.models import Q
 from datetime import date
+from django.contrib.auth.models import Group
+from django.views.generic import View, CreateView, UpdateView, DeleteView
+# Permissions checks
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.mixins import UserPassesTestMixin, PermissionRequiredMixin
 
 # login function renamed because my view is called login too 
 from django.contrib.auth import logout as auth_logout, login as auth_login
@@ -23,7 +29,7 @@ from dockingRecords.models import DockingRecord, SecondOperator
 ### account is for other users
 
 @login_required(login_url='login')
-@user_passes_test(view_accounts)
+@permission_required('accounts.view_customuser', raise_exception=True)
 def accounts(request):
     # initial filter, filters accounts in the same terminal or group as the user depending on the user group 
     account_filter = UserFilter(request.GET, CustomUser.objects.filter(is_superuser = False, location = request.user.location).distinct().order_by('groups'))
@@ -45,7 +51,7 @@ def accounts(request):
     return render(request,"accounts/accounts.html",context)
 
 @login_required(login_url='login')
-@user_passes_test(view_accounts)
+@permission_required('accounts.view_customuser', raise_exception=True)
 def search_accounts(request):
     search_field  = request.POST.get('search-radios')
     record_filter = filter_accounts(request.POST.get('search-bar'), search_field)
@@ -53,7 +59,7 @@ def search_accounts(request):
     return render(request,'accounts/tables/accounts-table.html', context)
 
 @login_required(login_url='login')
-@user_passes_test(add_accounts)
+@permission_required('accounts.add_customuser', raise_exception=True)
 def create_account(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
@@ -79,7 +85,7 @@ def create_account(request):
     return render(request,"accounts/create-account.html",context)
 
 @login_required(login_url='login')
-@user_passes_test(update_accounts)
+@permission_required('accounts.change_customuser', raise_exception=True)
 def update_account(request, pk):
     account = get_object_or_404(CustomUser, id = pk)
 
@@ -103,7 +109,7 @@ def update_account(request, pk):
     return render(request, 'accounts/update-account.html', context)
 
 @login_required(login_url='login')
-@user_passes_test(delete_accounts)
+@permission_required('accounts.delete_customuser', raise_exception=True)
 def delete_account(request,pk):
     account = get_object_or_404(CustomUser, id = pk)
     account.delete()
@@ -120,7 +126,7 @@ def delete_account(request,pk):
 # by targeting it using the custom id created by django template tags
 # using JS the modal text will be fixed to match the new user status
 @login_required(login_url='login')
-@user_passes_test(update_accounts)
+@permission_required('accounts.change_customuser', raise_exception=True)
 def deactivate_account(request, pk):
     account = get_object_or_404(CustomUser, id = pk)
 
@@ -211,3 +217,72 @@ def profile(request, pk):
         'employee_prcntg':employee_prcntg,
         }
     return render(request, 'accounts/profile.html', context)
+
+#@method_decorator(login_required(login_url='login'), name='get')
+#@method_decorator(permission_required('auth.view_groups', raise_exception=True), name='get')
+class GroupListView(UserPassesTestMixin, PermissionRequiredMixin, View):
+    permission_required = 'auth.view_group'
+
+    # Login decorator alt
+    def test_func(self):
+        # Additional custom conditions if needed
+        return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        group_list = Group.objects.all()
+        context = {'group_list':group_list}
+        return render(request, 'groups/group-list.html', context)
+
+class GroupCreateView(UserPassesTestMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'auth.add_group'
+    model = Group
+    template_name = 'groups/create-group.html'
+    fields = ['name','permissions']
+    success_url = '/accounts/groups/'
+
+    # Login decorator alt
+    def test_func(self):
+        # Additional custom conditions if needed
+        return self.request.user.is_authenticated
+
+class GroupUpdateView(UserPassesTestMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'auth.change_group'
+    model = Group
+    template_name = 'groups/update-group.html'
+    fields = ['name','permissions']
+    success_url = '/accounts/groups/'
+
+    # Login decorator alt
+    def test_func(self):
+        # Additional custom conditions if needed
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        group_id = self.kwargs['pk']  # Access the group ID from URL parameters
+        # Do something with the group ID if needed
+        context['groupId'] = group_id
+        return context
+
+class GroupDeleteView(UserPassesTestMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'auth.change_group'
+    model = Group
+    success_url = '/accounts/groups/'
+
+    # Login decorator alt
+    def test_func(self):
+        # Additional custom conditions if needed
+        return self.request.user.is_authenticated
+
+    def get_cancel_url(self):
+        # Get the HTTP_REFERER from the request headers
+        return self.request.META.get('HTTP_REFERER', reverse_lazy('groups:group_list'))
+
+    def get(self, request, *args, **kwargs):
+        # Directly handle deletion without rendering a template
+        try:
+            self.object = self.get_object()
+            self.object.delete()
+            return HttpResponseRedirect(self.get_success_url())
+        except Exception:
+            return HttpResponseRedirect(self.get_cancel_url())

@@ -18,6 +18,12 @@
     <div class="p-0">Roster</div>
   </a>
 {% endif %}
+{% if perms.auth.view_group %}
+  <a href="{% url 'groups' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">
+    <span class="material-symbols-outlined p-1 fs-3">group</span>
+    <div class="p-0">Groups</div>
+  </a>
+{% endif %}
 {% comment %}
 {% if perms.accounts.view_customuser %}
   <a href="{% url 'departments' %}" class="link text-decoration-none text-light d-flex align-items-center mx-3 mt-2 p-1 rounded">

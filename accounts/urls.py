@@ -42,4 +42,8 @@ urlpatterns = [
     # Job Description
     #path('create_job_description/<int:pk>/', create_job_description, name='create_job_description'),
     #path('update_job_description/<int:pk>/', update_job_description, name='update_job_description'),
+    path('groups/', GroupListView.as_view(), name='groups'),
+    path('groups/create/', GroupCreateView.as_view(), name='create_group'),
+    path('groups/<int:pk>/', GroupUpdateView.as_view(), name='update_group'),
+    path('groups/<int:pk>/delete/', GroupDeleteView.as_view(), name='delete_group'),
 ]

@@ -28,7 +28,6 @@ AbstractUser._meta.get_field('groups').blank = False
 AbstractUser._meta.get_field('groups').null = False
 
 class CustomUser(AbstractUser, models.Model):
-    pass
     # Username, Email, Password, first name, Last name, groups(role) are predefined attributes inherited using ((pass))
     user_id  = models.CharField(max_length=50, blank=False, null=False, unique=True)
     location = models.ForeignKey(Terminal, on_delete=models.SET_NULL, blank=False, null=True)

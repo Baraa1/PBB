@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Create a New Group {% endblock %}
+
+{% block head %}
+    <!-- Select Css -->
+    <link rel="stylesheet" href="{% static 'css/select.css' %}" media="all">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+{% block search_field %}
+{% endblock %}
+
+{% block specific_links %}
+    {% if perms.accounts.add_customuser %}
+        <a href="{% url 'create_account' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">person_add</span>
+            <div class="p-0">Create a New Group</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    <div class="form-wrapper">
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'groups/forms/group-form.html' %}
+                <!-- Button here because group form is used in more than one pages with diffrent functions-->
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-outline-success btn-lg">Create Group</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block JS %}
+    <!--Select JS-->
+    <script src="{% static 'js/sjs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/sjs/popper.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
+    <script src="{% static 'js/sjs/main.js' %}"></script>
+{% endblock %}
