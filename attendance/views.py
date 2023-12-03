@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.decorators import login_required, permission_required
 from accounts.models import CustomUser
 from .models import Shift, AttendanceRecord
 from .filters import *
@@ -9,7 +9,6 @@ from django.http import HttpResponse
 from datetime import datetime
 import calendar
 from django.db.models import Q
-from accounts.decorators import add_accounts
 
 #, timezone='Asia/Riyadh'
 def get_month_dates(year, month):
@@ -44,19 +43,37 @@ def get_week_dates(year, month):
 
     return days
 
+def filter_records_by_month(month_records, dates, account_filter):
+    filtered_records = []
+    for employee in account_filter:
+        temp_list = []
+        temp_list.append(employee.id)
+        temp_list.append(f'{employee.first_name} {employee.last_name}')
+        roles = ''
+        for role in employee.groups.all():
+            roles += f'{role} '
+        temp_list.append(roles)
+
+        for day in dates:
+            try:
+                temp_list.append(month_records.get(employee = employee, date = day))
+            except AttendanceRecord.DoesNotExist:
+                temp_list.append(day)
+        filtered_records.append(temp_list)
+    return filtered_records
+
 @login_required(login_url='login')
-@user_passes_test(add_accounts)
+@permission_required(['attendance.view_attendancerecord','attendance.add_attendancerecord','attendance.change_attendancerecord','attendance.delete_attendancerecord',], raise_exception=True)
 def roster(request):
-    # Filters
-    account_filter = UserFilter(request.GET, CustomUser.objects.filter(is_superuser = False, is_active = True, location = request.user.location).distinct().order_by('groups'))
-    shift_filter   = ShiftFilter(request.GET, Shift.objects.filter().distinct())
-    # data
-    #employees      = CustomUser.objects.filter(is_superuser = False, is_active = True, location = request.user.location)
-    employees      = CustomUser.objects.filter(id = request.user.id)
+    '''
+        Creates a table for the current or chosen month and year with filters and wait for the user input
+    '''
+    account_filter = UserFilter(request.GET, CustomUser.objects.filter(is_superuser = False, is_active = True).distinct().order_by('groups'))
     shifts         = Shift.objects.all()
+    form           = CreateAttendanceRecordForm()
     selected_month = request.GET.get("selected_month")
     selected_year  = request.GET.get("selected_year")
-    form           = CreateAttendanceRecordForm()
+
     if selected_month == None or selected_year == None:
         selected_year = datetime.now().year
         selected_month = datetime.now().month
@@ -64,54 +81,41 @@ def roster(request):
         selected_year = int(selected_year)
         selected_month = int(selected_month)
     dates          = get_month_dates(selected_year, selected_month)
-    filtered_books = AttendanceRecord.objects.filter(Q(employee__in=employees) & Q(date__month=selected_month) & Q(date__year = selected_year))
 
     context = {
         "account_filter":account_filter,
-        "shift_filter":shift_filter,
-        "employees":employees,
         "shifts":shifts,
         "selected_year":selected_year,
         "selected_month":selected_month,
         "dates":dates,
         "form":form,
     }
-    if request.method == "POST":
-        # filtered users
-        account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True,location = request.user.location).distinct().order_by('groups'))
-        # filtered shifts
-        shift_filter              = ShiftFilter(request.POST, Shift.objects.filter().distinct())
-        #context["account_filter"] = account_filter
-        context["employees"]      = account_filter.qs
-        #context["shift_filter"]   = shift_filter
-        context["shifts"]         = shift_filter.qs
-        context["htmx"]           = True
-        month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__month=selected_month) & Q(date__year = selected_year))
-
-        filtered_records = []
-        for employee in account_filter.qs:
-            temp_list = []
-            temp_list.append(employee.id)
-            temp_list.append(f'{employee.first_name} {employee.last_name}')
-            roles = ''
-            for role in employee.groups.all():
-                roles += f'{role} '
-            temp_list.append(roles)
-
-            for day in dates:
-                try:
-                    temp_list.append(month_records.get(employee = employee, date = day))
-                except AttendanceRecord.DoesNotExist:
-                    temp_list.append(day)
-            filtered_records.append(temp_list)
-        context["filtered_records"] = filtered_records
-
-        return render(request,"tables/roster-table2.html", context)
     
     return render(request,"roster.html", context)
 
 @login_required(login_url='login')
-@user_passes_test(add_accounts)
+@permission_required(['attendance.view_attendancerecord','attendance.add_attendancerecord','attendance.change_attendancerecord','attendance.delete_attendancerecord',], raise_exception=True)
+def filter_roster_by_accounts(request):
+    # Get the month and year from the request and generate month dates in proper format
+    selected_month = int(request.GET.get("selected_month"))
+    selected_year  = int(request.GET.get("selected_year"))
+    dates          = get_month_dates(selected_year, selected_month)
+
+    if request.method == "POST":
+        account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True).distinct().order_by('groups'))
+        # Get all the records for the selected user group in the specified date
+        month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__month=selected_month) & Q(date__year = selected_year))
+        # returns a list of account lists that contains either an attendance record or a datetime object to be used for filling the roster table 
+        filtered_records = filter_records_by_month(month_records, dates, account_filter.qs)
+        context = {
+            "filtered_records": filtered_records,
+            "htmx": True,
+        }
+        return render(request,"tables/roster-table2.html", context)
+    return HttpResponse(status=500)
+
+@login_required(login_url='login')
+@permission_required('attendance.add_attendancerecord', raise_exception=True)
 def assign_shift(request):
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST)
@@ -126,7 +130,7 @@ def assign_shift(request):
     return HttpResponse(status=500)
 
 @login_required(login_url='login')
-@user_passes_test(add_accounts)
+@permission_required('attendance.change_attendancerecord', raise_exception=True)
 def update_assignment(request, pk):
     assignment = get_object_or_404(AttendanceRecord, id = pk)
 
@@ -144,6 +148,8 @@ def update_assignment(request, pk):
     else:
         return HttpResponse(status=500)
 
+@login_required(login_url='login')
+@permission_required('attendance.view_attendancerecord', raise_exception=True)
 def get_assignment(request):
     employee_id = request.GET.get("employee_id")
     shift_date  = request.GET.get("shift_date")
@@ -153,6 +159,8 @@ def get_assignment(request):
     context = {"record":assignment,"form":form}
     return render(request,"includes/attendance-record.html", context)
 
+@login_required(login_url='login')
+@permission_required('attendance.delete_attendancerecord', raise_exception=True)
 def delete_assignment(request, pk):
     record = get_object_or_404(AttendanceRecord, id = pk)
     employee_id = record.employee.id
@@ -167,6 +175,8 @@ def delete_assignment(request, pk):
         }
     return render(request,"includes/attendance-record.html",context)
 
+@login_required(login_url='login')
+@permission_required('attendance.view_attendancerecord', raise_exception=True)
 def get_records(request):
     shift_id     = request.GET.get("shift_id")
     shift_date   = request.GET.get("shift_date")
@@ -178,6 +188,8 @@ def get_records(request):
     }
     return render(request,"includes/records.html", context)
 
+@login_required(login_url='login')
+@permission_required('attendance.view_attendancerecord', raise_exception=True)
 def my_roster(request, pk):
     selected_month = request.GET.get("selected_month")
     selected_year  = request.GET.get("selected_year")
@@ -216,6 +228,7 @@ def my_roster(request, pk):
     return render(request,"my-roster.html", context)
 
 @login_required(login_url='login')
+@permission_required(['attendance.view_attendancerecord', 'attendance.add_shift'], raise_exception=True)
 def create_shift(request):
     if request.method == 'POST':
         form = CreateShiftForm(request.POST)
