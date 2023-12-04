@@ -49,9 +49,9 @@ def filter_records_by_month(month_records, dates, account_filter):
         temp_list = []
         temp_list.append(employee.id)
         temp_list.append(f'{employee.first_name} {employee.last_name}')
-        roles = ''
+        roles = []
         for role in employee.groups.all():
-            roles += f'{role} '
+            roles.append(f'{role}')
         temp_list.append(roles)
 
         for day in dates:

@@ -17,28 +17,27 @@
     <div class="">
         <span class="hidden month">{{ selected_month }}</span>
         <span class="hidden year">{{ selected_year }}</span>
-        <table class="table table-secondary">
-            <caption class="">Roster</caption>
+        <table class="table table-light table-striped">
             <thead class="position-sticky top-0 z-1">
-                <tr class="days">
+                <tr class="days table-active">
                     {% include "attendance-records/htmx/filters-embed.html" %}
                     <!--th class="header" scope="col">Name</th>
                     <th class="header" scope="col">Role</th-->
                     {% for day in dates %}
-                        <th class="header text-center text-bg-secondary" scope="col">{{ day|date:"D - d" }}</th>
+                        <th class="header text-center" scope="col">{{ day|date:"D - d" }}</th>
                     {% endfor %}
                 </tr>
             </thead>
             <script>let calls_dict = {};</script>
             {% include "attendance-records/tables/roster-table2.html" %}
-            <tfoot class="position-sticky bottom-0 z-1">
+            <tfoot class="position-sticky bottom-0 z-1 hidden">
                 {% for shift in shifts %}
                     <tr class="" >
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.name }}</td>
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
                         {% for day in dates %}
                             <td class="align-middle text-{{ shift.color }} p-1" style="min-width:7.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
-                            {% include "attendance-records/includes/records.html" %}
+                            {% include "attendance-records/includes/shift-counters.html" %}
                             </td>
                         {% endfor %}
                     </tr>
@@ -46,6 +45,8 @@
             </tfoot>
         </table>
     </div>
+    {% include "attendance-records/includes/shifts.html" %}
+
 {% endblock %}
 {% block JS %}
     <script src="{% static 'js/sjs/jquery.min.js' %}"></script>

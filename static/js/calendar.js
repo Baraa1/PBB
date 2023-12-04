@@ -27,13 +27,13 @@ function dragdrop(){
     dropTargets.forEach(element => {
         element.addEventListener('dragover', (event) => {
             event.preventDefault();
-            element.classList.add('bg-dark')
+            element.classList.add('light-red')
         });
     });
     dropTargets.forEach(element => {
         element.addEventListener('dragleave', (event) => {
             event.preventDefault();
-            element.classList.remove('bg-dark')
+            element.classList.remove('light-red')
         });
     });
     dropTargets.forEach(element => {
@@ -48,26 +48,34 @@ function dragdrop(){
     });
 }
 dragdrop();
+
 function read_cells(values){
     const table_rows = document.querySelectorAll(`tbody .days1`);
     const col_np     = parseInt(values['shift_date']) + 2;
-    let counter      = document.querySelector(`#s${values['shift_id']}-${values['shift_date']} h6`);
-    counter.textContent = 0
+    const counter      = document.querySelector(`#s${values['shift_id']}-${values['shift_date']} h6`);
+    const prev_total   = parseInt(counter.textContent);
+    console.log(prev_total)
+    let new_total        = 0;
     table_rows.forEach(row => {
-        let colElement = row.querySelector(`td:nth-child(${col_np}) h6 .targ`);
-        if (String(colElement.textContent.trim('')) === String(values['shift_name'])){
-            counter.textContent = parseInt(counter.textContent )+1
-        }
-    })
-}
+        const colElement = row.querySelector(`td:nth-child(${col_np}) h6`);
+        const shift_tag  = colElement.querySelector(`.targ`);
+        const p_tag = colElement.querySelector(".cell-counter");
+        if (String(shift_tag.textContent.trim('')) === String(values['shift_name'])){
+            //counter.textContent = prev_total + 1
+            new_total += 1;
+            p_tag.textContent = prev_total;
+        };
+    });
+    if (new_total !== prev_total){
+        counter.textContent = new_total;
+    } else {
+        counter.textContent = prev_total
+    }
+};
 function recalc(){
     for (let element in calls_dict) {
         read_cells(calls_dict[element]);
     }
 }
-window.addEventListener('change', () => {
-    console.log('window')
-    recalc();
-})
-//recalc()
-//setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute
+recalc()
+setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute

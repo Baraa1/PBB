@@ -22,17 +22,18 @@
         hx-trigger="click" hx-swap="innerHTML">Submit
         </button>
     </form>
-    <h6 class="text-center d-flex justify-content-between align-items-center">
+    <h6 class="text-center d-flex justify-content-evenly align-items-center">
         {% if day.shift %}
             <span class="targ">{{ day.shift.name }}</span>
+            <span class="cell-counter fw-bold border border-dark p-2">0</span>
             <span class="material-symbols-outlined del-btn"
             hx-post="{% url 'delete_attendance_record' day.id %}"
             hx-target="#e{{ employee.0 }}-{{ day.date|date:"d" }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-trigger="click" hx-swap="innerHTML">delete</span>
-        {% else %}
+            {% else %}
+            <span class="cell-counter fw-bold border border-dark p-2"></span>
             <span class="targ">OFF</span>
         {% endif %}
     </h6>
-    
 </div>

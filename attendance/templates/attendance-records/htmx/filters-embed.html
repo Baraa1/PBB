@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-    <th class="header text-bg-secondary" scope="col" style="min-width:15vw;">
+    <th class="header" scope="col" style="min-width:15vw;">
         <form method="post" class="flex" enctype="multipart/form-data" action="" novalidate>
             {% csrf_token %}
             <div class="flex">
@@ -7,14 +7,14 @@
             </div>
         </form>
     </th>
-    <th class="header att-htmx flex text-bg-secondary" scope="col" style="min-width:15vw;">
+    <th class="header att-htmx flex" scope="col" style="min-width:15vw;">
         <form class="flex" method="post" enctype="multipart/form-data" action=""  novalidate>
             {% csrf_token %}
             {% render_field account_filter.form.groups class="js-select2" multiple="multiple" %}
             <button type="button" class="hidden filter"
             hx-post="{% url 'filter_roster_by_accounts' %}?selected_month={{ selected_month }}&selected_year={{ selected_year }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-indicator=".indicator"
-            hx-trigger="click delay:2s" hx-target="#roster-table" hx-swap="outerHTML">Filter
+            hx-trigger="click delay:5s" hx-target="#roster-table" hx-swap="outerHTML">Filter
             </button>
         </form>
     </th>

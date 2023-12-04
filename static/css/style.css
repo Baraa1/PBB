@@ -1024,7 +1024,7 @@ hr,
   text-align: center;
   line-height: 38px;
   border-radius: 50%;
-  border: solid RGBA(255, 193, 7, var(--bs-bg-opacity, 1)) 2px;
+  /*border: solid RGBA(255, 193, 7, var(--bs-bg-opacity, 1)) 2px;*/
 }
 
 .icons a:last-child{
@@ -1088,4 +1088,8 @@ hr,
     transform: translateX(0);
     opacity: 1;
   }
+}
+
+.light-red{
+  background-color: #ffe1e1 !important;
 }
