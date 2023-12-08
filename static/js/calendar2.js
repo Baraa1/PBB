@@ -4,6 +4,7 @@ selectedMonth   = document.querySelector(".month"),
 selectedYear    = document.querySelector(".year");
 
 // getting new date, current year and month
+let date= new Date()
 let currYear  = selectedYear.textContent,
 currMonth = selectedMonth.textContent - 1;
 
@@ -14,10 +15,10 @@ currentDate.innerText = `${months[currMonth]} ${currYear}`; // passing current m
 
 const renderCalendar = () => {
     daysTag.forEach(daytag => {
+        const istoday = parseInt(daytag.textContent.replace(/\D/g,''));
         // adding active class to li if the current day, month, and year matched
-        let isToday = daytag.textContent == date.getDate() && currMonth === new Date().getMonth() && currYear === new Date().getFullYear() ? "active" : "";
+        let isToday = istoday == date.getDate() ? "active" : "";
         if (isToday) {daytag.classList.add(isToday);}
-        console.log(daytag.textContent.replace(/\D/g,''), date.getDate())
     });
 }
 renderCalendar();

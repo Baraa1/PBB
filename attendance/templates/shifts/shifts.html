@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Shifts {% endblock %}
+
+{% block specific_links %}
+    {% if perms.shifts.add_shift %}
+        <a href="{% url 'create_shift' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">add</span>
+            <div class="p-0">Create a New Shift</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block display-content %}
+    {% include "shifts/forms/shifts-filters.html" %}
+    <div id="shifts-table">
+        {% include "shifts/tables/shifts-table.html" %}
+    </div>
+{% endblock %}
+{% block floating_btn %}
+    <a href="{% url 'create_shift' %}" class="material-symbols-outlined text-decoration-none rounded-2 bg-danger text-light fs-3 p-3 position-absolute bottom-0 end-0 show shadow-lg m-5">add</a>
+{% endblock %}

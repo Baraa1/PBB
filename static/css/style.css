@@ -1053,6 +1053,7 @@ hr,
   text-align: center;
   line-height: 38px;
   border-radius: 50%;
+  text-decoration: none;
   /*border: solid RGBA(255, 193, 7, var(--bs-bg-opacity, 1)) 2px;*/
 }
 
@@ -1120,6 +1121,27 @@ hr,
   }
 }
 
+/************************************* Employee Roster ******************************************/
+
+.text-bg-inactive  {
+  color: grey;
+  font-weight: 300;
+}
+.active {
+  color: red !important;
+  /* text-decoration: underline; */
+  font-weight: bolder;
+  text-decoration: underline 0.2em;
+  animation: pulse 3s alternate infinite;
+}
+@keyframes pulse {
+  from {
+    text-decoration-color: white;
+    }
+  to {
+    text-decoration-color: red;
+    }
+}
 /************************************* Dragula ******************************************/
 
 .gu-mirror {

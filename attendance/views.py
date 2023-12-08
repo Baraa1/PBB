@@ -194,6 +194,7 @@ def get_records(request):
 def account_roster(request, pk):
     selected_month = request.GET.get("selected_month")
     selected_year  = request.GET.get("selected_year")
+    today = datetime.now().day
     if selected_month == None or selected_year == None:
         selected_year = datetime.now().year
         selected_month = datetime.now().month
@@ -215,18 +216,19 @@ def account_roster(request, pk):
         att_dict = (day,'inactive')
         for record in records:
             if day == record.date:
-                att_dict = (record.date, record.shift.color,)
+                att_dict = (record.date, f'{record.shift.color} fw-bold', record.shift.name)
                 break
         roster_list.append(att_dict)
 
-    shifts = Shift.objects.all()
+    shifts = Shift.objects.filter(attendancerecord__in=records).distinct()
     context = {
         "roster_list":roster_list,
+        "accountId":pk,
         "shifts":shifts,
         "selected_year":selected_year,
         "selected_month":selected_month,
     }
-    return render(request,"attendance-records/my-roster.html", context)
+    return render(request,"attendance-records/account-roster.html", context)
 
 @login_required(login_url='login')
 @permission_required(['attendance.view_attendancerecord', 'attendance.add_shift'], raise_exception=True)

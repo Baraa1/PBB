@@ -46,6 +46,7 @@ header .current-date{
   flex-wrap: wrap;
   list-style: none;
   text-align: center;
+  margin: 0 !important;
 }
 .calendar .days{
   margin-bottom: 10px;
@@ -74,7 +75,8 @@ header .current-date{
   color: #aaa;
 }
 .days li.active{
-  color: red;
+  color: red !important;
+  text-decoration: underline !important;
   font-weight: bolder;
 }
 .days li::before{

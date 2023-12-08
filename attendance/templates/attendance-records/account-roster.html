@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+{% endblock %}
+{% block title %} Roster {% endblock %}
+
+{% block display-content %}
+<div class="d-flex justify-content-center pt-2">
+  <span class="hidden month">{{ selected_month }}</span>
+  <span class="hidden year">{{ selected_year }}</span>
+    <div class="wrapper shadow-lg rounded-1">
+        <header class="d-flex justify-content-between align-items-center py-3 px-3">
+          <p class="current-date m-0">{{ selected_year }}</p>
+          {% if selected_month > 1 and selected_month < 12 %}
+              <div class="icons">
+                  <a href="{% url 'account_roster' accountId %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-5 fw-bold text-bg-primary border border-primary" >&lt;</a>
+                  <a href="{% url 'account_roster' accountId %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-5 fw-bold text-bg-primary border border-primary" >&gt;</a>
+              </div>
+          {% elif selected_month == 1 %}
+              <div class="icons">
+                  <a href="{% url 'account_roster' accountId %}?selected_month=12&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-5 fw-bold text-bg-primary border border-primary" >&lt;</a>
+                  <a href="{% url 'account_roster' accountId %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-5 fw-bold text-bg-primary border border-primary" >&gt;</a>
+              </div>
+          {% elif selected_month == 12%}
+              <div class="icons">
+                  <a href="{% url 'account_roster' accountId %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-5 fw-bold text-bg-primary border border-primary" >&lt;</a>
+                  <a href="{% url 'account_roster' accountId %}?selected_month=1&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-5 fw-bold text-bg-primary border border-primary" >&gt;</a>
+              </div>
+          {% endif %}
+        </header>
+        <table class="table table-light table-bordered" id="account-roster">
+            <thead class="py-1 table-secondary">
+                <tr>
+                    <th scope="col px-2" style="min-width:3.5vw;">Sun</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Mon</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Tue</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Wed</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Thu</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Fri</th>
+                    <th scope="col px-2" style="min-width:3.5vw;">Sat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="height:5vh;">
+                    {% for record in roster_list %}
+                    <td class="days text-bg-{{ record.1 }} text-center align-middle">{{ record.0|date:"d" }}{% if record.2 %} - {{ record.2.0 }}{% endif %}</td>
+                    {% if forloop.counter|divisibleby:"7" or forloop.last %}
+                        </tr>
+                        {% if not forloop.last %}
+                        <tr style="height:5vh;">
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="d-flex flex-wrap gap-2 p-3">
+            {% for shift in shifts %}
+                <div class="text-bg-{{ shift.color }} flex-fill text-center py-2 px-3 rounded-1 d-flex justify-content-center align-items-center">
+                    <h6 class="text-center m-0 p-2">{{ shift.name }}</h6>
+                    {% if shift.from_time or shift.to_time%}
+                        <hr class="bg-dark p-0 m-0">
+                        <h6 class=" text-center m-0 p-2">Start: {{ shift.from_time|date:"H:i" }}</h6>
+                        <hr class="bg-dark p-0 m-0">
+                        <h6 class="text-center m-0 pt-2">End: {{ shift.to_time|date:"H:i" }}</h6>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block JS %}
+    <script src="{% static 'js/calendar2.js' %}"></script>
+{% endblock %}
