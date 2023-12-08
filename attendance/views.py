@@ -121,7 +121,6 @@ def filter_roster_by_accounts(request):
 def create_attendance_record(request):
     if request.method == 'POST':
         form = CreateAttendanceRecordForm(request.POST)
-
         if form.is_valid():
             form.save()
             record = form.instance

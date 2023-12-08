@@ -2,17 +2,17 @@ from django.db import models
 from accounts.models import CustomUser
 
 class Shift(models.Model):
-    BLUE         = "bg-primary"
-    LIGHT_BLUE   = "bg-info"
-    GRAY         = "bg-secondary"
-    LIGHT_GRAY   = "bg-light"
-    GREEN        = "bg-success"
-    LIGHT_GREEN  = "bg-success-l"
-    RED          = "bg-danger"
-    LIGHT_RED    = "bg-danger-l"
-    YELLOW       = "bg-warning"
-    LIGHT_YELLOW = "bg-warning-l"
-    BLACK        = "bg-dark"
+    BLUE         = "primary"
+    LIGHT_BLUE   = "info"
+    GRAY         = "secondary"
+    LIGHT_GRAY   = "light"
+    GREEN        = "success"
+    LIGHT_GREEN  = "success-l"
+    RED          = "danger"
+    LIGHT_RED    = "danger-l"
+    YELLOW       = "warning"
+    LIGHT_YELLOW = "warning-l"
+    BLACK        = "dark"
 
     COLOR_CHOICES  = [
         (BLUE, "Blue"),

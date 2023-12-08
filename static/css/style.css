@@ -959,6 +959,35 @@ hr,
 /************************************* END OF ACCOUNTS PAGES *************************************/
 /************************************* Flight Schedules ******************************************/
 
+.unfocused {
+  opacity: 0.2;
+}
+.focused {
+  opacity: 1;
+}
+.light-red{
+  background-color: #ffe1e1 !important;
+}
+
+.draggable-element,
+.draggable-cell {
+  cursor: pointer;
+}
+
+.user-select-none {
+  user-select: none;
+}
+
+#roster-table tr {
+  transition: all 600ms;
+}
+
+#roster-table td {
+  transition: all 300ms;
+}
+#roster-table td:hover {
+  background-color: #ffe1e1 !important;
+}
 .attendance-filters {
     min-width: 100%; 
     padding: 5px 10px;
@@ -1050,21 +1079,22 @@ hr,
   cursor: pointer;
 }
 
+#shifts-container {
+  border: var(--bs-danger-border-subtle) 0.15em solid;
+}
+
 .bg-danger-l, .text-bg-danger-l {
   background-color: var(--bs-danger-bg-subtle) !important;
   color: var(--bs-danger-text-emphasis);
-  border: var(--bs-danger-border-subtle) 0.25rem solid;
 }
 .bg-success-l, .text-bg-success-l {
   background-color: var(--bs-success-bg-subtle) !important;
   color: var(--bs-success-text-emphasis);
-  border: var(--bs-success-border-subtle) 0.25rem solid;
 }
 .bg-warning-l,
 .text-bg-warning-l {
   background-color: var(--bs-warning-bg-subtle) !important;
   color: var(--bs-warning-text-emphasis);
-  border: var(--bs-warning-border-subtle) 0.25rem solid;
 }
 
 .htmx-indicator{
@@ -1090,6 +1120,27 @@ hr,
   }
 }
 
-.light-red{
-  background-color: #ffe1e1 !important;
+/************************************* Dragula ******************************************/
+
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: 0.8;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);
+}
+.gu-hide {
+  display: none !important;
+}
+.gu-unselectable {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+.gu-transit {
+  opacity: 0.2;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
+  filter: alpha(opacity=20);
 }

@@ -1,15 +1,20 @@
 {% load widget_tweaks %}
-<div class="{{record.shift.color}} {{day.shift.color}} align-middle m-2 p-2">
-    <form method="post" class="hidden"  enctype="multipart/form-data" action="" novalidate>
+{% if day.shift %}
+<div draggable="true" class="draggable-cell text-bg-{{day.shift.color}} rounded-1 shadow align-middle m-2 p-2 user-select-none">
+{% else %}
+<div class="align-middle m-2 p-2">
+{% endif %}
+    <form method="post" class="hidden" enctype="multipart/form-data" action="" novalidate>
         {% csrf_token %}
         {% if day.shift %}
             {% render_field form.employee value=employee.0 %}
             {% render_field form.date value=day.date %}
+            {% render_field form.shift value=day.shift.id %}
         {% else %}
             {% render_field form.employee value=employee.0 %}
             {% render_field form.date value=day %}
+            {% render_field form.shift value="" %}
         {% endif %}
-        {% render_field form.shift value="" %}
         <button type="button" class="filter"
         {% if day.shift %}
             hx-post="{% url 'update_attendance_record' day.id %}"
@@ -19,7 +24,7 @@
             hx-target="#e{{ employee.0 }}-{{ day|date:"d" }}"
         {% endif %}
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-        hx-trigger="click" hx-swap="innerHTML">Submit
+        hx-trigger="click delay:0.3s" hx-swap="innerHTML">Submit
         </button>
     </form>
     <h6 class="text-center d-flex justify-content-evenly align-items-center">
@@ -30,10 +35,10 @@
             hx-post="{% url 'delete_attendance_record' day.id %}"
             hx-target="#e{{ employee.0 }}-{{ day.date|date:"d" }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-trigger="click" hx-swap="innerHTML">delete</span>
+            hx-trigger="click delay:0.3s" hx-swap="innerHTML">delete</span>
             {% else %}
-            <span class="cell-counter fw-bold border border-dark p-2"></span>
-            <span class="targ">OFF</span>
+            <span class="cell-counter fw-bold border border-dark p-2 user-select-none"></span>
+            <span class="targ user-select-none">OFF</span>
         {% endif %}
     </h6>
 </div>

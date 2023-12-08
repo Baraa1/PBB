@@ -14,48 +14,13 @@ function createCalendar(){
 };
 createCalendar();
 
-function dragdrop(){
-    const draggableElements = document.querySelectorAll('.draggable-element');
-    const dropTargets = document.querySelectorAll('.drop-target');
-
-    draggableElements.forEach(element => {
-        element.addEventListener('dragstart', (event) => {
-            event.dataTransfer.setData('elementData', element.textContent);
-        })
-    });
-
-    dropTargets.forEach(element => {
-        element.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            element.classList.add('light-red')
-        });
-    });
-    dropTargets.forEach(element => {
-        element.addEventListener('dragleave', (event) => {
-            event.preventDefault();
-            element.classList.remove('light-red')
-        });
-    });
-    dropTargets.forEach(element => {
-        element.addEventListener('drop', (event) => {
-            const elementData = event.dataTransfer.getData('elementData');
-            const new_shift = element.querySelector('#id_shift');
-            const sub_btn = element.querySelector('.filter');
-            element.classList.remove('bg-dark');
-            new_shift.value = elementData.replace(/\D/g,'');
-            sub_btn.click();
-        });
-    });
-}
-dragdrop();
-
 function read_cells(values){
     const table_rows = document.querySelectorAll(`tbody .days1`);
     const col_np     = parseInt(values['shift_date']) + 2;
     const counter      = document.querySelector(`#s${values['shift_id']}-${values['shift_date']} h6`);
     const prev_total   = parseInt(counter.textContent);
-    console.log(prev_total)
     let new_total        = 0;
+
     table_rows.forEach(row => {
         const colElement = row.querySelector(`td:nth-child(${col_np}) h6`);
         const shift_tag  = colElement.querySelector(`.targ`);

@@ -2,6 +2,8 @@
 {% load new_filters %}
     <tbody id="roster-table">
         <tr class="htmx-indicator indicator">
+            <td style="min-width:8.5vw;">&nbsp;</td>
+            <td style="min-width:8.5vw;">&nbsp;</td>
             {% for day in dates %}
                 <td style="min-width:7.5vw;">&nbsp;</td>
             {% endfor %}
@@ -11,7 +13,7 @@
                 <th class="fs-5 align-middle text-center text-truncate position-sticky start-0 z-1" style="max-width:20vw;">
                     <a class="text-dark" href="{% url 'account_roster' employee.0 %}"><strong>{{ employee.1 }}</strong></a>
                 </th>
-                <td class="fs-6 text-dark text-truncate">
+                <td class="fs-6 text-dark text-truncate align-middle">
                     {% for role in employee.2 %}
                         {{ role }}
                         {% if not forloop.last %}
@@ -27,6 +29,8 @@
             </tr>
         {% endfor %}
     </tbody>
+    <script>table_drag();</script>
+    <script>dragdrop();</script>
 {% if htmx %}
-    <script src="{% static 'js/calendar.js' %}"></script>
+<script src="{% static 'js/calendar.js' %}"></script>
 {% endif %}

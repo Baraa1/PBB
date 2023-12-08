@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-    <th class="header" scope="col" style="min-width:15vw;">
+    <th class="header align-middle" scope="col" style="min-width:15vw;" id="follow">
         <form method="post" class="flex" enctype="multipart/form-data" action="" novalidate>
             {% csrf_token %}
             <div class="flex">
@@ -8,7 +8,7 @@
         </form>
     </th>
     <th class="header att-htmx flex" scope="col" style="min-width:15vw;">
-        <form class="flex" method="post" enctype="multipart/form-data" action=""  novalidate>
+        <form class="flex" method="post" enctype="multipart/form-data" action="" novalidate>
             {% csrf_token %}
             {% render_field account_filter.form.groups class="js-select2" multiple="multiple" %}
             <button type="button" class="hidden filter"

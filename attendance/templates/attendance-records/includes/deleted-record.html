@@ -9,9 +9,8 @@
         hx-post="{% url 'create_attendance_record' %}"
         hx-target="#e{{ employee_id }}-{{ shift_date|date:"d" }}"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-        hx-trigger="click" hx-swap="innerHTML">Submit
+        hx-trigger="click delay:0.3s" hx-swap="innerHTML">Submit
         </button>
     </form>
         <h6 class="text-center d-flex justify-content-evenly align-items-center"><span class="cell-counter fw-bold border border-dark p-2"></span><span class="targ">OFF</span></h6>
 </div>
-<script>dragdrop();</script>

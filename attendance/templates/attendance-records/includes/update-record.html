@@ -1,15 +1,15 @@
 {% load widget_tweaks %}
-<div class="{{record.shift.color}} align-middle m-2 p-2">
+<div draggable="true" class="draggable-cell text-bg-{{record.shift.color}} rounded-1 shadow align-middle m-2 p-2" id="r{{ record.id }}">
     <form method="post" class="hidden"  enctype="multipart/form-data" action="" novalidate>
         {% csrf_token %}
-        {% render_field form.employee value=employee.0 %}
-        {% render_field form.date value=day %}
-        {% render_field form.shift value="" %}
+        {% render_field form.employee %}
+        {% render_field form.date %}
+        {% render_field form.shift %}
         <button type="button" class="filter"
             hx-post="{% url 'update_attendance_record' record.id %}"
             hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-            hx-trigger="click" hx-swap="innerHTML">Submit
+            hx-trigger="click delay:0.3s" hx-swap="innerHTML">Submit
         </button>
     </form>
     <h6 class="text-center d-flex justify-content-evenly align-items-center">
@@ -19,8 +19,18 @@
         hx-post="{% url 'delete_attendance_record' record.id %}"
         hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-        hx-trigger="click" hx-swap="innerHTML">delete</span>
+        hx-trigger="click delay:0.3s" hx-swap="innerHTML">delete</span>
     </h6>
-    
 </div>
-<script>dragdrop();</script>
+<script>
+    newCell = document.querySelector('#r{{ record.id }}')
+    newCell.addEventListener('drag', (e) => {
+        isMouseDown = true;
+        activeCell = newCell;
+        parentRow = activeCell.parentElement.parentElement;
+        dataValue = newCell.querySelector('#id_shift').value;
+        initPos = activeCell.parentElement.getBoundingClientRect().right;
+        nextCell = activeCell.parentElement.nextElementSibling;
+        activeCell.parentElement.parentElement.classList.add('table-danger', 'focused');
+    });
+</script>

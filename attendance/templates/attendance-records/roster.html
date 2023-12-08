@@ -18,13 +18,13 @@
         <span class="hidden month">{{ selected_month }}</span>
         <span class="hidden year">{{ selected_year }}</span>
         <table class="table table-light table-striped">
-            <thead class="position-sticky top-0 z-1">
+            <thead class="position-sticky top-0 z-1 table-dark">
                 <tr class="days table-active">
                     {% include "attendance-records/htmx/filters-embed.html" %}
                     <!--th class="header" scope="col">Name</th>
                     <th class="header" scope="col">Role</th-->
                     {% for day in dates %}
-                        <th class="header text-center" scope="col">{{ day|date:"D - d" }}</th>
+                        <th class="header text-center align-middle" scope="col" style="min-width:8.5vw;">{{ day|date:"D - d" }}</th>
                     {% endfor %}
                 </tr>
             </thead>
@@ -36,7 +36,7 @@
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.name }}</td>
                         <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
                         {% for day in dates %}
-                            <td class="align-middle text-{{ shift.color }} p-1" style="min-width:7.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
+                            <td class="align-middle text-{{ shift.color }} p-1" style="min-width:8.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
                             {% include "attendance-records/includes/shift-counters.html" %}
                             </td>
                         {% endfor %}
@@ -54,6 +54,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.min.js"></script>
     <script src="{% static 'js/sjs/main.js' %}"></script>
     <script src="{% static 'js/calendar.js' %}"></script>
+    <!--Dragula JS-->
+    <script src="{% static 'node_modules/dragula/dist/dragula.js' %}"></script>
+    <script src="{% static 'js/drag-drop.js' %}"></script>
     <!--HTMX JS-->
     <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
 {% endblock %}
