@@ -30,7 +30,10 @@
         <form method="post" enctype="multipart/form-data" action="" novalidate>
             {% csrf_token %}
             <div class="form-custom form-floating mb-3">
-                {% include 'includes/shift-form.html' %}
+                {% include 'shifts/includes/shift-form.html' %}
+            </div>
+            <div class="fr-btn">
+                <button type="submit" class="btn btn-success btn-lg">Create Shift</button>
             </div>
         </form>
     </div>

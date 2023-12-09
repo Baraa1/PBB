@@ -5,11 +5,11 @@ from .models import Shift
 from django.db.models import Q
 
 class ShiftFilter(django_filters.FilterSet):
-    name     = django_filters.ModelMultipleChoiceFilter(field_name='name', lookup_expr='icontains', queryset=Shift.objects.all())
+    name      = django_filters.CharFilter(field_name='name', lookup_expr='icontains')
 
     class Meta:
         model = Shift
-        fields = ['name',]
+        fields = '__all__'
 
 def filter_accounts(search, field):
     filtered_records = CustomUser.objects.none()

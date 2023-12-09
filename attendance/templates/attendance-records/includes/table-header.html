@@ -8,13 +8,13 @@
         </div>
     {% elif selected_month == 1 %}
         <div class="icons mx-3">
-            <a href="{% url 'roster' %}?selected_month=11&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-3 fw-bold text-light bg-dark" >&lt;</a>
+            <a href="{% url 'roster' %}?selected_month=12&selected_year={{ selected_year|add:"-1" }}" id="prev" class="fs-3 fw-bold text-light bg-dark" >&lt;</a>
             <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"1" }}&selected_year={{ selected_year }}" id="next" class="fs-3 fw-bold text-light bg-dark" >&gt;</a>
         </div>
-    {% elif selected_month == 12%}
+    {% elif selected_month == 12 %}
         <div class="icons mx-3">
             <a href="{% url 'roster' %}?selected_month={{ selected_month|add:"-1" }}&selected_year={{ selected_year }}" id="prev" class="fs-3 fw-bold text-light bg-dark" >&lt;</a>
-            <a href="{% url 'roster' %}?selected_month=0&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-3 fw-bold text-light bg-dark" >&gt;</a>
+            <a href="{% url 'roster' %}?selected_month=1&selected_year={{ selected_year|add:"1" }}" id="next" class="fs-3 fw-bold text-light bg-dark" >&gt;</a>
         </div>
     {% endif %}
 </section>

@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from accounts.models import CustomUser
 from .models import Shift, AttendanceRecord
@@ -103,7 +104,7 @@ def filter_roster_by_accounts(request):
     form           = CreateAttendanceRecordForm()
 
     if request.method == "POST":
-        account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True).distinct().order_by('groups'))
+        account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True).order_by('id').distinct())
         # Get all the records for the selected user group in the specified date
         month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__month=selected_month) & Q(date__year = selected_year))
         # returns a list of account lists that contains either an attendance record or a datetime object to be used for filling the roster table 
@@ -201,22 +202,63 @@ def account_roster(request, pk):
     else:
         selected_year = int(selected_year)
         selected_month = int(selected_month)
-
-    prev_month = selected_month-1 if selected_month > 1 else 12
-    prev_year  = selected_year-1 if selected_month == 1 else selected_year
-
     dates = get_week_dates(selected_year, selected_month)
-    records  = AttendanceRecord.objects.filter(
-        Q(employee__id = pk) &
-        Q(Q(date__month=selected_month) | Q(date__month=prev_month)) &
-        Q(Q(date__year = prev_year) | Q(date__year = prev_year)))
+
+    #prev_month = selected_month-1 if selected_month > 1 else 12
+    #prev_year  = selected_year-1 if selected_month == 1 else selected_year
+    #records  = AttendanceRecord.objects.filter(
+    #    Q(employee__id = pk) &
+    #    Q(Q(date__month=selected_month) | Q(date__month=prev_month) | Q(date__month=selected_month+1)) &
+    #    Q(Q(date__year = prev_year) | Q(date__year = prev_year)))
+
+    if selected_month == 1:
+        records  = AttendanceRecord.objects.filter(
+            Q(employee__id = pk),
+            # January selected_year records
+            Q(Q(date__month=selected_month) & Q(date__year = selected_year)) |
+            # February selected_year records
+            Q(date__month=selected_month+1) & Q(date__year = selected_year) |
+            # Previous year December records
+            Q(Q(date__month=12) & Q(date__year = selected_year-1))
+        )
+    elif selected_month == 12:
+        records  = AttendanceRecord.objects.filter(
+            Q(employee__id = pk),
+            # December selected_year records
+            Q(Q(date__month=selected_month) & Q(date__year = selected_year)) |
+            # Next year January records
+            Q(Q(date__month=1) & Q(date__year = selected_year+1) |
+            # November selected_year records
+            Q(date__month=selected_month-1) & Q(date__year = selected_year))
+        )
+    else:
+        records  = AttendanceRecord.objects.filter(
+            Q(employee__id = pk),
+            # This month records
+            Q(Q(date__month=selected_month) & Q(date__year = selected_year)) |
+            # Next month records
+            Q(date__month=selected_month+1) & Q(date__year = selected_year) |
+            # Previous Month
+            Q(date__month=selected_month+1) & Q(date__year = selected_year)
+        )
     
+    # create a list of the month days and populate the days that has an attendance record with it
     roster_list = []
     for day in dates:
-        att_dict = (day,'inactive')
+        classes = 'inactive'
+        if selected_month == day.month:
+            classes += ' fw-bold'
+        else:
+            classes += ' opacity-75'
+        att_dict = (day,classes)
         for record in records:
             if day == record.date:
-                att_dict = (record.date, f'{record.shift.color} fw-bold', record.shift.name)
+                # makes it dim
+                if selected_month == record.date.month:
+                    classes = f'text-bg-{record.shift.color} fw-bolder'
+                else:
+                    classes = f'bg-{record.shift.color} opacity-75 inactive'
+                att_dict = (record.date, classes, record.shift.name)
                 break
         roster_list.append(att_dict)
 
@@ -230,14 +272,37 @@ def account_roster(request, pk):
     }
     return render(request,"attendance-records/account-roster.html", context)
 
+
+@login_required(login_url='login')
+@permission_required(['attendance.view_shift'], raise_exception=True)
+def shifts(request):
+    shifts_filter = ShiftFilter(request.GET, Shift.objects.all())
+
+    # filtered users
+    if request.method == "POST":
+        #terminal = Terminal.objects.get(terminal_name = request.POST.get('terminal'))
+        shifts_filter = ShiftFilter(request.POST, Shift.objects.filter())
+        context     = {"shifts": shifts_filter.qs}
+
+        return render(request,'shifts/tables/shifts-table.html', context)
+
+    # else return all users data
+    context = {
+        "shifts":shifts_filter.qs,
+        "shifts_filter": shifts_filter,
+        }
+
+    return render(request,"shifts/shifts.html",context)
+
 @login_required(login_url='login')
 @permission_required(['attendance.view_attendancerecord', 'attendance.add_shift'], raise_exception=True)
 def create_shift(request):
     if request.method == 'POST':
         form = CreateShiftForm(request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('roster')
+            instance = form.save()
+            messages.info(request, f'{instance.name} was successfully Created')
+            return redirect('shifts')
     else:
         form = CreateShiftForm()
 
@@ -246,3 +311,33 @@ def create_shift(request):
         }
 
     return render(request,"shifts/create-shift.html",context)
+
+@login_required(login_url='login')
+@permission_required(['attendance.view_attendancerecord', 'attendance.change_shift'], raise_exception=True)
+def update_shift(request, pk):
+    shift = get_object_or_404(Shift, id = pk)
+
+    if request.method == 'POST':
+        form = CreateShiftForm(request.POST,instance=shift)
+        if form.is_valid():
+            instance = form.save()
+            messages.info(request, f'{instance.name} was successfully edited')
+            return redirect('shifts')
+    else:
+        form = CreateShiftForm(instance=shift)
+    
+    context = {
+        'form': form,
+        # sending the id for the delete account btn
+        'shiftid':pk
+    }
+
+    return render(request, 'shifts/update-shift.html', context)
+
+@login_required(login_url='login')
+@permission_required('attendance.delete_shift', raise_exception=True)
+def delete_shift(request, pk):
+    shift = get_object_or_404(Shift, id = pk)
+    shift.delete()
+    messages.info(request, f'{shift.name} was successfully deleted')
+    return redirect('shifts')

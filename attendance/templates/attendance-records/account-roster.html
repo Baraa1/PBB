@@ -32,19 +32,19 @@
         <table class="table table-light table-bordered" id="account-roster">
             <thead class="py-1 table-secondary">
                 <tr>
-                    <th scope="col px-2" style="min-width:3.5vw;">Sun</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Mon</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Tue</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Wed</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Thu</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Fri</th>
-                    <th scope="col px-2" style="min-width:3.5vw;">Sat</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Sun</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Mon</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Tue</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Wed</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Thu</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Fri</th>
+                    <th scope="col px-2" class="text-center align-middle" style="min-width:3.5vw;">Sat</th>
                 </tr>
             </thead>
             <tbody>
                 <tr style="height:5vh;">
                     {% for record in roster_list %}
-                    <td class="days text-bg-{{ record.1 }} text-center align-middle">{{ record.0|date:"d" }}{% if record.2 %} - {{ record.2.0 }}{% endif %}</td>
+                    <td class="days {{ record.1 }} text-center align-middle">{{ record.0|date:"d" }}{% if record.2 %} - {{ record.2.0 }}{% endif %}</td>
                     {% if forloop.counter|divisibleby:"7" or forloop.last %}
                         </tr>
                         {% if not forloop.last %}
@@ -60,9 +60,9 @@
                     <h6 class="text-center m-0 p-2">{{ shift.name }}</h6>
                     {% if shift.from_time or shift.to_time%}
                         <hr class="bg-dark p-0 m-0">
-                        <h6 class=" text-center m-0 p-2">Start: {{ shift.from_time|date:"H:i" }}</h6>
+                        <h6 class=" text-center m-0 p-2 align-middle">Start: {{ shift.from_time|date:"H:i" }}</h6>
                         <hr class="bg-dark p-0 m-0">
-                        <h6 class="text-center m-0 pt-2">End: {{ shift.to_time|date:"H:i" }}</h6>
+                        <h6 class="text-center m-0 p-2 align-middle">End: {{ shift.to_time|date:"H:i" }}</h6>
                     {% endif %}
                 </div>
             {% endfor %}

@@ -17,7 +17,7 @@ const renderCalendar = () => {
     daysTag.forEach(daytag => {
         const istoday = parseInt(daytag.textContent.replace(/\D/g,''));
         // adding active class to li if the current day, month, and year matched
-        let isToday = istoday == date.getDate() ? "active" : "";
+        let isToday = istoday == date.getDate() && currMonth === date.getMonth() ? "active" : "";
         if (isToday) {daytag.classList.add(isToday);}
     });
 }

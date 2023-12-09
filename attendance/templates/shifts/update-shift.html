@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} Edit Shift {% endblock %}
+
+
+{% block display-content %}
+    <div class="form-wrapper">
+        <form method="post" enctype="multipart/form-data" action="" novalidate>
+            {% csrf_token %}
+            <div class="form-custom form-floating mb-3">
+                {% include 'shifts/includes/shift-form.html' %}
+                <div class="fr-btn">
+                    <button type="submit" class="btn btn-success btn-lg">Update Shift</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-outline-danger btn-lg">Delete Shift</button>
+                </div>
+            </div>
+        </form>
+        {% include 'shifts/htmx/delete-shift-modal.html' %}
+    </div>
+{% endblock %}

@@ -3,10 +3,18 @@
 
 {% block title %} Shifts {% endblock %}
 
+{% block search_field %}
+{% endblock %}
 {% block specific_links %}
-    {% if perms.shifts.add_shift %}
+    {% if perms.attendance.view_shift %}
+        <a href="{% url 'shifts' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">check_in_out</span>
+            <div class="p-0">Shifts</div>
+        </a>
+    {% endif %}
+    {% if perms.attendance.add_shift %}
         <a href="{% url 'create_shift' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
-            <span class="material-symbols-outlined p-1 fs-3">add</span>
+            <span class="material-symbols-outlined p-1 fs-3">person_add</span>
             <div class="p-0">Create a New Shift</div>
         </a>
     {% endif %}
@@ -20,4 +28,8 @@
 {% endblock %}
 {% block floating_btn %}
     <a href="{% url 'create_shift' %}" class="material-symbols-outlined text-decoration-none rounded-2 bg-danger text-light fs-3 p-3 position-absolute bottom-0 end-0 show shadow-lg m-5">add</a>
+{% endblock %}
+{% block JS %}
+    <!--HTMX JS-->
+    <script src="https://unpkg.com/htmx.org@1.8.4" integrity="sha384-wg5Y/JwF7VxGk4zLsJEcAojRtlVp1FKKdGy1qN+OMtdq72WRvX/EdRdqg/LOhYeV" crossorigin="anonymous"></script>
 {% endblock %}

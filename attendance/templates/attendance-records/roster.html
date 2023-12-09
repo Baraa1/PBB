@@ -6,13 +6,27 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css" rel="stylesheet" />
 {% endblock %}
+
 {% block title %} Roster {% endblock %}
+
+{% block specific_links %}
+<hr>
+    {% if perms.attendance.view_shift %}
+        <a href="{% url 'shifts' %}" class="sub-link text-decoration-none d-flex align-items-center ms-3 mt-2 p-1 rounded">
+            <span class="material-symbols-outlined p-1 fs-3">check_in_out</span>
+            <div class="p-0">Shifts</div>
+        </a>
+    {% endif %}
+{% endblock %}
+
 {% block search_field %}
     {% include "attendance-records/includes/table-header.html" %}
 {% endblock %}
+
 {% block custom_btn %}
     <a class="btn btn-success" href="{% url 'create_shift' %}">Add Shift</a>
 {% endblock %}
+
 {% block display-content %}
     <div class="">
         <span class="hidden month">{{ selected_month }}</span>

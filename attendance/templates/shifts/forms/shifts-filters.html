@@ -1,0 +1,38 @@
+{% load widget_tweaks %}
+{% load static %}
+
+<form class="filter-form" method="post" enctype="multipart/form-data" action="" novalidate>
+    {% csrf_token %}
+    <table class="table table-striped table-bordered">
+        <tbody>
+            <tr class="form-floating mb-3">
+                <td class="mb-3 fr-inp">
+                    <label for="name" class="form-label">Name</label>
+                    {% render_field shifts_filter.form.name  class="stop-enter form-control form-control-sm" %}
+                </td>
+
+                <td class="mb-3 fr-inp">
+                    <label for="location" class="form-label">Start</label>
+                    {% render_field shifts_filter.form.from_time type="time" class="stop-enter form-control form-control-sm" %}
+                </td>
+            
+                <td class="mb-3 fr-inp">
+                    <label for="groups" class="form-label">End</label>
+                    {% render_field shifts_filter.form.to_time type="time" class="stop-enter form-control form-control-sm" %}
+                </td>
+                <td class="mb-3 fr-inp">
+                    <label for="color" class="form-label">Color</label>
+                    {% render_field shifts_filter.form.color class="stop-enter form-select form-select-sm" %}
+                </td>
+
+                <td class="hidden">
+                    <button type="button" class="btn btn-primary btn-md"
+                    hx-post="{% url 'shifts' %}"
+                    hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                    hx-trigger="keydown[key=='Enter'] from:.filter-form" hx-target="#shifts-table" hx-swap="innerHTML"
+                    >Filter</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
