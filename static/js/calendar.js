@@ -37,10 +37,28 @@ function read_cells(values){
         counter.textContent = prev_total
     }
 };
+
+// Listens for htmx responses and applies changes accordingly
 function recalc(){
+    const dropTargets1 = document.querySelectorAll(".drop-target");
+    dropTargets1.forEach(cell => {
+        cell.addEventListener('htmx:afterSwap', function(event) {
+            var swappedElement = event.detail.elt;
+            let shiftName = swappedElement.querySelector(`.targ`).textContent;
+            let shiftDay = swappedElement.querySelector(`#id_date`).value.slice(-2);
+            // Once to change the value of the hidden cell in the tfoot
+            read_cells(calls_dict[`${shiftName}-${shiftDay}`])
+            // Twice to apply the values changes to the column cells
+            read_cells(calls_dict[`${shiftName}-${shiftDay}`])
+        });
+    })
+};
+recalc();
+
+function calculate_employees(){
     for (let element in calls_dict) {
         read_cells(calls_dict[element]);
     }
 }
-recalc()
-setInterval(recalc, 10000); // 60000 milliseconds is equal to 1 minute
+calculate_employees()
+// setInterval(recalc, 120000); // 60000 milliseconds is equal to 1 minute
