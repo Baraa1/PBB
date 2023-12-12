@@ -6,7 +6,7 @@ function table_drag(){
     const shifts          = document.querySelector("#shifts-container");
     // Shifts bar drag and copy
     let drake = dragula([],{
-        //copy:true,
+        copy:true,
         // Allow dropping only if the target container is a target container
         accepts: function (el, target, source, sibling) {
             // console.log('el:',el, 'target:',target, 'source:',source, 'sibling:',sibling);
@@ -32,9 +32,10 @@ function table_drag(){
             return target.classList.contains('drop-target');
         },
         moves: function (el, container, handle) {
-            // Check if the element is not in the first two cells of a row
+            // Check if the element is draggable
             return el.classList.contains('draggable');
         },
+        revertOnSpill:true,
     });
     // Add the table cells
     dropTargets.forEach(cell => {
@@ -48,7 +49,6 @@ function table_drag(){
         const elementData = el.children[1].textContent;
         const new_shift = target.querySelector('#id_shift');
         const sub_btn = target.querySelector('.filter');
-        target.classList.remove('light-red');
         new_shift.value = elementData.replace(/\D/g,'');
         sub_btn.click();
     })
