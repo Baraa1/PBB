@@ -7,17 +7,20 @@
         {% render_field form.shift %}
         <button type="button" class="filter"
             hx-post="{% url 'update_attendance_record' record.id %}"
-            hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
+            hx-target="#e{{ record.employee.id }}-{{ record.date|date:"dm" }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-trigger="click delay:0.3s" hx-swap="innerHTML">Submit
         </button>
     </form>
     <h6 class="text-center d-flex justify-content-evenly align-items-center">
+        <span class="hidden total-hours">{{ record.shift.total_hours }}</span>
+        <span class="hidden allowance">{{ record.shift.allowance }}</span>
+        <span class="hidden hx-date">{{ record.date|date:"dm" }}</span>
         <span class="targ">{{ record.shift.name }}</span>
         <span class="cell-counter fw-bold border border-dark p-2">0</span>
         <span class="material-symbols-outlined del-btn"
         hx-post="{% url 'delete_attendance_record' record.id %}"
-        hx-target="#e{{ record.employee.id }}-{{ record.date|date:"d" }}"
+        hx-target="#e{{ record.employee.id }}-{{ record.date|date:"dm" }}"
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
         hx-trigger="click delay:0.3s" hx-swap="innerHTML">delete</span>
     </h6>

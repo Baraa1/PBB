@@ -22,9 +22,19 @@
                     {% endfor %}
                 </td>
                 {% for day in employee|start_from:3 %}
-                    <td class="drop-target align-middle p-0 m-0 h-100" style="min-width:8.5vw;" id="e{{ employee.0 }}-{% if day.date %}{{ day.date|date:"d" }}{% else %}{{ day|date:"d" }}{% endif %}">
+                    <td class="drop-target align-middle p-0 m-0 h-100 d{% if day.date %}{{ day.date|date:"dm" }}{% else %}{{ day|date:"dm" }}{% endif %}" 
+                    style="min-width:8.5vw;" 
+                    id="e{{ employee.0 }}-{% if day.date %}{{ day.date|date:"dm" }}{% else %}{{ day|date:"dm" }}{% endif %}">
                         {% include "attendance-records/includes/attendance-record.html" %}
                     </td>
+                    {% if forloop.counter|divisibleby:"7" or forloop.last %}
+                    <td class="align-middle p-0 m-0 h-100 week-counter"><h4 class="p-2 m-0 text-center text-primary h-100">0</h4></td>
+                    <td class="align-middle p-0 m-0 h-100 ot-counter"><h4 class="p-2 m-0 text-center text-primary h-100">0</h4></td>
+                    {% if forloop.last %}
+                        <td class="align-middle p-0 m-0 h-100 month-counter"><h4 class="p-2 m-0 text-center text-primary h-100">0</h4></td>
+                        <td class="align-middle p-0 m-0 h-100 month-ot-counter"><h4 class="p-2 m-0 text-center text-primary h-100">0</h4></td>
+                    {% endif %}
+                {% endif %}
                 {% endfor %}
             </tr>
         {% endfor %}
@@ -32,6 +42,7 @@
     <script>table_drag();</script>
     <script>dragdrop();</script>
     <script>calculate_employees();</script>
+    <script>calculate_week_hours();</script>
 {% if htmx %}
 <script src="{% static 'js/calendar.js' %}"></script>
 {% endif %}

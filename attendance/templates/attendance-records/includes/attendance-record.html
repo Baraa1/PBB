@@ -18,10 +18,10 @@
         <button type="button" class="filter"
         {% if day.shift %}
             hx-post="{% url 'update_attendance_record' day.id %}"
-            hx-target="#e{{ employee.0 }}-{{ day.date|date:"d" }}"
+            hx-target="#e{{ employee.0 }}-{{ day.date|date:"dm" }}"
         {% else %}
             hx-post="{% url 'create_attendance_record' %}"
-            hx-target="#e{{ employee.0 }}-{{ day|date:"d" }}"
+            hx-target="#e{{ employee.0 }}-{{ day|date:"dm" }}"
         {% endif %}
         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
         hx-trigger="click delay:0.3s" hx-swap="innerHTML">Submit
@@ -30,15 +30,21 @@
     <h6 class="text-center d-flex justify-content-evenly align-items-center">
         {% if day.shift %}
             <span class="targ">{{ day.shift.name }}</span>
+            <span class="hidden total-hours">{{ day.shift.total_hours }}</span>
+            <span class="hidden hx-date">{{ day.date|date:"dm" }}</span>
+            <span class="hidden allowance">{{ day.shift.allowance }}</span>
             <span class="cell-counter fw-bold border border-dark p-2">0</span>
             <span class="material-symbols-outlined del-btn"
             hx-post="{% url 'delete_attendance_record' day.id %}"
-            hx-target="#e{{ employee.0 }}-{{ day.date|date:"d" }}"
+            hx-target="#e{{ employee.0 }}-{{ day.date|date:"dm" }}"
             hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
             hx-trigger="click delay:0.3s" hx-swap="innerHTML">delete</span>
             {% else %}
+            <span class="hidden total-hours">0</span>
+            <span class="hidden allowance">0</span>
+            <span class="hidden hx-date">{{ day|date:"dm" }}</span>
             <span class="cell-counter fw-bold border border-dark p-2 user-select-none"></span>
             <span class="targ user-select-none">OFF</span>
-        {% endif %}
+            {% endif %}
     </h6>
 </div>

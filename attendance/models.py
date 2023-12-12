@@ -28,10 +28,12 @@ class Shift(models.Model):
         (BLACK, "Black"),
     ]
 
-    name      = models.CharField(max_length=20, blank=False, null=False)
-    from_time = models.TimeField(blank=True, null=True)
-    to_time   = models.TimeField(blank=True, null=True)
-    color     = models.CharField(max_length=100, blank=True, null=True, choices=COLOR_CHOICES, default=LIGHT_GRAY)
+    name        = models.CharField(max_length=20, blank=False, null=False)
+    from_time   = models.TimeField(blank=True, null=True)
+    to_time     = models.TimeField(blank=True, null=True)
+    total_hours = models.IntegerField(default=8)
+    allowance   = models.IntegerField(default=0)
+    color       = models.CharField(max_length=100, blank=True, null=True, choices=COLOR_CHOICES, default=LIGHT_GRAY)
     def __str__(self):
         return f'{self.name}'
 

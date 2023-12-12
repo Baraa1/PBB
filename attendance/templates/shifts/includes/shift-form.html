@@ -17,7 +17,7 @@
 </div>
 <hr>
 <div class="form-row">
-    <p>time</p>
+    <p>Time</p>
     
     <div class="form-floating fr-inp">
         {% if form.from_time.errors %}
@@ -41,6 +41,31 @@
             {% render_field form.to_time name="to_time" class="form-control form-control-sm" id="to_time" %}
         {% endif %}
         <label for="to_time">Ending Time</label>
+    </div>
+</div>
+<div class="form-row">
+    <p>Hours</p>
+    <div class="form-floating fr-inp">
+        {% if form.total_hours.errors %}
+            {% render_field form.total_hours class="form-control form-control-sm is-invalid" %}
+            {% for error in form.total_hours.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.total_hours id="total_hours" class="form-control form-control-sm" %}
+        {% endif %}
+        <label for="total_hours">Total Hours</label>
+    </div>
+    <div class="form-floating fr-inp">
+        {% if form.allowance.errors %}
+            {% render_field form.allowance class="form-control form-control-sm is-invalid" %}
+            {% for error in form.allowance.errors  %}
+                <span>{{ error }}</span>
+            {% endfor %}
+        {% else %}
+            {% render_field form.allowance id="total_time" class="form-control form-control-sm" %}
+        {% endif %}
+        <label for="allowance">Shift Allowance</label>
     </div>
 </div>
 <hr>

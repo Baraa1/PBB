@@ -1,8 +1,8 @@
 <h6>0</h6>
 <script>
-    calls_dict['{{ shift.name }}-{{ day|date:"d" }}'] = {
+    calls_dict['{{ shift.name }}-{{ day|date:"dm" }}'] = {
             shift_name: '{{ shift.name }}',
-            shift_date: '{{ day|date:"d" }}',
+            shift_date: '{{ day|date:"dm" }}',
             shift_id: '{{ shift.id }}',
         }
 </script>

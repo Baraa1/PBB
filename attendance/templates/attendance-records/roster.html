@@ -31,7 +31,7 @@
     <div class="">
         <span class="hidden month">{{ selected_month }}</span>
         <span class="hidden year">{{ selected_year }}</span>
-        <table class="table table-light table-striped">
+        <table class="table table-light table-striped table-bordered">
             <thead class="position-sticky top-0 z-1 table-dark">
                 <tr class="days table-active">
                     {% include "attendance-records/htmx/filters-embed.html" %}
@@ -39,6 +39,14 @@
                     <th class="header" scope="col">Role</th-->
                     {% for day in dates %}
                         <th class="header text-center align-middle" scope="col" style="min-width:8.5vw;">{{ day|date:"D - d" }}</th>
+                        {% if forloop.counter|divisibleby:"7" or forloop.last %}
+                            <th class="header text-center align-middle text-warning" scope="col" style="min-width:8.5vw;">Total Hours</th>
+                            <th class="header text-center align-middle text-warning" scope="col" style="min-width:8.5vw;">OT Hours</th>
+                            {% if forloop.last %}
+                                <th class="header text-center align-middle text-warning" scope="col" style="min-width:8.5vw;">Month's Total Hours</th>
+                                <th class="header text-center align-middle text-warning" scope="col" style="min-width:8.5vw;">Month's OT Hours</th>
+                            {% endif %}
+                        {% endif %}
                     {% endfor %}
                 </tr>
             </thead>
@@ -47,12 +55,20 @@
             <tfoot class="position-sticky bottom-0 z-1 hidden">
                 {% for shift in shifts %}
                     <tr class="" >
-                        <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.name }}</td>
-                        <td class="text-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
+                        <td class="text-bg-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.name }}</td>
+                        <td class="text-bg-{{ shift.color }} p-1" style="min-width:15vw;">{{ shift.from_time|date:"H:i" }}-{{ shift.to_time|date:"H:i" }}</td>
                         {% for day in dates %}
-                            <td class="align-middle text-{{ shift.color }} p-1" style="min-width:8.5vw;" id="s{{ shift.id }}-{{ day|date:"d" }}">
+                            <td class="align-middle text-bg-{{ shift.color }} p-1" style="min-width:8.5vw;" id="s{{ shift.id }}-{{ day|date:"dm" }}">
                             {% include "attendance-records/includes/shift-counters.html" %}
                             </td>
+                            {% if forloop.counter|divisibleby:"7" or forloop.last %}
+                                <td style="min-width:8.5vw;">&nbsp;</td>
+                                <td style="min-width:8.5vw;">&nbsp;</td>
+                                {% if forloop.last %}
+                                    <td style="min-width:8.5vw;">&nbsp;</td>
+                                    <td style="min-width:8.5vw;">&nbsp;</td>
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
                     </tr>
                 {% endfor %}

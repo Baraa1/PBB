@@ -5,6 +5,8 @@
                 <th scope="col">Name</th>
                 <th scope="col">Start</th>
                 <th scope="col">End</th>
+                <th scope="col">Total Hours</th>
+                <th scope="col">Allowance</th>
                 <th scope="col">Color</th>
                 <th scope="col">Actions</th>
             </tr>
@@ -20,6 +22,12 @@
                     </td>
                     <td class="align-middle">
                         {{ shift.to_time }}
+                    </td>
+                    <td class="align-middle">
+                        {{ shift.total_hours }}
+                    </td>
+                    <td class="align-middle">
+                        {{ shift.allowance }}
                     </td>
                     <td class="align-middle text-bg-{{ shift.color }}">
                     </td>

@@ -81,7 +81,7 @@ def roster(request):
     else:
         selected_year = int(selected_year)
         selected_month = int(selected_month)
-    dates          = get_month_dates(selected_year, selected_month)
+    dates          = get_week_dates(selected_year, selected_month)
 
     context = {
         "account_filter":account_filter,
@@ -100,13 +100,13 @@ def filter_roster_by_accounts(request):
     # Get the month and year from the request and generate month dates in proper format
     selected_month = int(request.GET.get("selected_month"))
     selected_year  = int(request.GET.get("selected_year"))
-    dates          = get_month_dates(selected_year, selected_month)
+    dates          = get_week_dates(selected_year, selected_month)
     form           = CreateAttendanceRecordForm()
 
     if request.method == "POST":
         account_filter = UserFilter(request.POST, CustomUser.objects.filter(is_superuser = False, is_active = True).order_by('id').distinct())
         # Get all the records for the selected user group in the specified date
-        month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__month=selected_month) & Q(date__year = selected_year))
+        month_records = AttendanceRecord.objects.filter(Q(employee__in=account_filter.qs) & Q(date__in=dates))
         # returns a list of account lists that contains either an attendance record or a datetime object to be used for filling the roster table 
         filtered_records = filter_records_by_month(month_records, dates, account_filter.qs)
         context = {

@@ -20,6 +20,15 @@
                     <label for="groups" class="form-label">End</label>
                     {% render_field shifts_filter.form.to_time type="time" class="stop-enter form-control form-control-sm" %}
                 </td>
+
+                <td class="mb-3 fr-inp">
+                    <label for="total_hours" class="form-label">Total Hours</label>
+                    {% render_field shifts_filter.form.total_hours  class="stop-enter form-control form-control-sm" %}
+                </td>
+                <td class="mb-3 fr-inp">
+                    <label for="allowance" class="form-label">Shift Allowance</label>
+                    {% render_field shifts_filter.form.allowance  class="stop-enter form-control form-control-sm" %}
+                </td>
                 <td class="mb-3 fr-inp">
                     <label for="color" class="form-label">Color</label>
                     {% render_field shifts_filter.form.color class="stop-enter form-select form-select-sm" %}
