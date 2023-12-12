@@ -2,11 +2,7 @@
 {% load new_filters %}
     <tbody id="roster-table">
         <tr class="htmx-indicator indicator">
-            <td style="min-width:8.5vw;">&nbsp;</td>
-            <td style="min-width:8.5vw;">&nbsp;</td>
-            {% for day in dates %}
-                <td style="min-width:7.5vw;">&nbsp;</td>
-            {% endfor %}
+            <td style="min-width:14vw;">&nbsp;</td>
         </tr>
         {% for employee in filtered_records %}
             <tr class="days1 position-relative">
@@ -23,7 +19,7 @@
                 </td>
                 {% for day in employee|start_from:3 %}
                     <td class="drop-target align-middle p-0 m-0 h-100 d{% if day.date %}{{ day.date|date:"dm" }}{% else %}{{ day|date:"dm" }}{% endif %}" 
-                    style="min-width:8.5vw;" 
+                    style="min-width:8vw;" 
                     id="e{{ employee.0 }}-{% if day.date %}{{ day.date|date:"dm" }}{% else %}{{ day|date:"dm" }}{% endif %}">
                         {% include "attendance-records/includes/attendance-record.html" %}
                     </td>
