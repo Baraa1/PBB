@@ -19,7 +19,7 @@ function read_cells(values){
     //const col_np     = parseInt(values['shift_date']) + 2;
     const counter      = document.querySelector(`#s${values['shift_id']}-${values['shift_date']} h6`);
     const prev_total   = parseInt(counter.textContent);
-    let new_total        = 0;
+    let new_total      = 0;
 
     table_rows.forEach(row => {
         //const colElement = row.querySelector(`td:nth-child(${col_np}) h6`);
@@ -31,11 +31,8 @@ function read_cells(values){
             p_tag.textContent = prev_total;
         };
     });
-    if (new_total !== prev_total){
-        counter.textContent = new_total;
-    } else {
-        counter.textContent = prev_total
-    }
+    // display the count total
+    counter.textContent = new_total !== prev_total ? counter.textContent = new_total : counter.textContent = prev_total;
 };
 
 function calculate_employees(){
@@ -62,9 +59,7 @@ function calculate_week_hours() {
         let currentCell = week.previousElementSibling;
         for (let i = 0; i <= 6; i++) {
             totalHours += parseInt(currentCell.querySelector('.total-hours').textContent);
-            console.log(currentCell.querySelector('.allowance').textContent)
-            otHours += parseInt(currentCell.querySelector('.allowance').textContent);
-            console.log(otHours)
+            otHours    += parseInt(currentCell.querySelector('.allowance').textContent);
             currentCell = currentCell.previousElementSibling;
         }
         if (totalHours > 48) {

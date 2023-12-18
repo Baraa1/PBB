@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 {% if day.shift %}
-<div draggable="true" class="draggable-cell text-bg-{{day.shift.color}} rounded-1 shadow align-middle m-2 p-2 user-select-none">
+<div draggable="true" class="draggable-cell text-bg-{{day.shift.color}} rounded-1 shadow align-middle m-2 p-2 user-select-none" id="r{{ record.id }}">
 {% else %}
 <div class="align-middle m-2 p-2">
 {% endif %}
